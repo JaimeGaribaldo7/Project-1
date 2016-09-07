@@ -1,0 +1,33 @@
+$background-color: #66cdaa;
+$font-color: #402970;
+
+
+$unit: 30px;
+$width: (4 * $unit);
+$height: (4 * $unit);
+
+
+body {
+  color: tint($font-color, 20%);
+}
+
+.row > .col-xs-5 {
+  border: 2px solid $box-color;
+  box-sizing: border-box;
+  height: $height;
+  padding: 50px;
+  width: $width;
+}
+
+.game-container {
+  margin: 40% auto;
+  width: 50%;
+}
+
+.left-aside {
+  float: left;
+}
+
+.right-aside {
+  float: right;
+}

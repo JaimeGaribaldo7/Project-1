@@ -5,25 +5,65 @@
       <script src="vendor.bundle.js" type="text/javascript" charset="utf-8" defer></script>
       <script src="bundle.js" type="text/javascript" charset="utf-8" defer></script>
     </head>
-    <body class="main-container">
+    <body class="container">
+      <nav class="Nav-Forms">
+        <form id="sign-up">
+          <fieldset>
+            <legend>Sign up!</legend>
+            <input type="email" name="credentials[email]" placeholder="Enter your email">
+            <input type="password" name="credentials[password]" placeholder="Enter your password">
+            <input type="password" name="credentials[password_confirmation]" placeholder="Confirm your password">
+            <input type="submit" name="submit" value="Sign up!">
+          </fieldset>
+        </form>
+        <form id="sign-in">
+          <fieldset>
+            <legend>Sign in!</legend>
+            <input type="email" name="credentials[email]" placeholder="Enter your email">
+            <input type="password" name="credentials[password]" placeholder="Enter your password">
+            <input type="submit" name="submit" value="Sign in!">
+          </fieldset>
+        </form>
+        <form id="change-password">
+          <fieldset>
+            <legend>Change password!</legend>
+            <input type="password" name="passwords[old]" placeholder="Old password">
+            <input type="password" name="passwords[new]" placeholder="New password">
+            <input type="submit" name="submit" value="Change password!">
+          </fieldset>
+        </form>
+        <form id="sign-out">
+          <fieldset>
+            <legend>Sign Out!</legend>
+            <input type="submit" name="submit" value="Sign Out!">
+          </fieldset>
+        </form>
+        <form id="get-all-users">
+          <fieldset>
+            <legend>Get All Users</legend>
+            <input type="submit" name="submit" value="Get Users!">
+          </fieldset>
+        </form>
+      </nav>
+      <h2>Tic Tac Toe</h2>
+      <aside class="left-aside">Players</aside>
       <div class="game-container">
-        <div class="row">
-          <div class="col-xs-4">1</div>
-          <div class="col-xs-4">2</div>
-          <div class="col-xs-4">3</div>
+        <div class="row" id="top-row">
+          <div class="col-xs-5">1</div>
+          <div class="col-xs-5">2</div>
+          <div class="col-xs-5">3</div>
         </div>
-        <div class="row">
-          <div class="col-xs-4">4</div>
-          <div class="col-xs-4">5</div>
-          <div class="col-xs-4">6</div>
+        <div class="row" id="mid-row">
+          <div class="col-xs-5">4</div>
+          <div class="col-xs-5">5</div>
+          <div class="col-xs-5">6</div>
         </div>
-        <div class="row">
-          <div class="col-xs-4">7</div>
-          <div class="col-xs-4">8</div>
-          <div class="col-xs-4">9</div>
+        <div class="row" id="bottom-row">
+          <div class="col-xs-5">7</div>
+          <div class="col-xs-5">8</div>
+          <div class="col-xs-5">9</div>
         </div>
       </div>
-
-
+      <aside class="right-aside">Scores</aside>
     </body>
 </html>

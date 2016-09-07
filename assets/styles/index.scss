@@ -1,11 +1,7 @@
 $icon-font-path: '~bootstrap-sass/assets/fonts/bootstrap/';
 @import '~bootstrap-sass/assets/stylesheets/bootstrap';
 
-
-.row > .col-xs-4 {
-  border: 2px solid $font-color;
-  box-sizing: border-box;
-  height: $height;
-  padding: 50px;
-  width: $width;
-}
+@import 'colors';
+@import 'typography';
+@import 'theme';
+@import 'breakpoints';
