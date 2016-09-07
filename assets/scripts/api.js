@@ -42,21 +42,9 @@ const signOut = () => {
   });
 };
 
-// const getUsers = () => {
-//   return  $.ajax({
-//     url: app.host + '/users',
-//     method: 'GET',
-//     headers: {
-//       Authorization: 'Token token=' + app.user.token,
-//     },
-// });
-// };
-
 module.exports = {
   signUp,
   signIn,
   changePassword,
   signOut,
-
-  // getUsers,
 };

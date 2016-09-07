@@ -1,7 +1,9 @@
 'use strict';
 
 const app = {
-  host: 'http://localhost:3000',
+  host: 'http://tic-tac-toe.wdibos.com/',
 };
+
+// NOTE NEED TO CHANGE THIS IF WORKING LOCALLY
 
 module.exports = app;

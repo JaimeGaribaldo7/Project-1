@@ -40,15 +40,6 @@ const onSignOut = function () {
   .fail(ui.failure);
 };
 
-// NOTE might not need to use get users function
-// const onGetUsers = function (){
-//   event.preventDefault();
-//
-//   api.getUsers()
-//   .done(ui.success)
-//   .fail(ui.failure);
-// };
-
 const addHandlers = () => {
   $('#sign-up').on('submit', onSignUp);
   $('#sign-in').on('submit', onSignIn);
