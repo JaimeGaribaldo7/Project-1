@@ -1,32 +1,88 @@
-$background-color: #66cdaa;
+$background-color: #98c8e8;
 $font-color: #402970;
-
+$boxes-color: #8fd1cd;
 
 $unit: 30px;
 
 
 body {
+  border: 2px;
   color: tint($font-color, 20%);
+  margin: 0 auto;
+  padding: 10px 0 40px;
 }
 
 .row > .col-xs-5 {
-  border: 2px solid $box-color;
   box-sizing: border-box;
+  font-size: 55px;
   height: 100px;
-  padding: 40px;
+  padding: 10px 10px 15px 33px;
   width: 100px;
 }
 
-.left-col-md-5 {
+.column-left {
   float: left;
+  width: 29%;
 }
 
-.game-container {
-  height: 350px;
+.column-center {
+  display: inline-block;
   margin: 0 auto;
-  width: 350px;
+  width: 40%;
 }
 
-.right-col-md-5 {
+.column-right {
   float: right;
+  width: 29%;
+}
+
+.tl {
+  border-bottom: 2px solid $box-color;
+  border-right: 2px solid $box-color;
+}
+
+.tm {
+  border-bottom: 2px solid $box-color;
+  border-left: 2px solid $box-color;
+  border-right: 2px solid $box-color;
+}
+
+.tr {
+  border-bottom: 2px solid $box-color;
+  border-left: 2px solid $box-color;
+}
+
+.ml {
+  border-bottom: 2px solid $box-color;
+  border-right: 2px solid $box-color;
+  border-top: 2px solid $box-color;
+}
+
+.mm {
+  border-bottom: 2px solid $box-color;
+  border-left: 2px solid $box-color;
+  border-right: 2px solid $box-color;
+  border-top: 2px solid $box-color;
+}
+
+.mr {
+  border-bottom: 2px solid $box-color;
+  border-left: 2px solid $box-color;
+  border-top: 2px solid $box-color;
+}
+
+.bl {
+  border-right: 2px solid $box-color;
+  border-top: 2px solid $box-color;
+}
+
+.bm {
+  border-left: 2px solid $box-color;
+  border-right: 2px solid $box-color;
+  border-top: 2px solid $box-color;
+}
+
+.br {
+  border-left: 2px solid $box-color;
+  border-top: 2px solid $box-color;
 }
