@@ -2,6 +2,7 @@
 
 const app = require('./app.js');
 
+//FORMS STARTS HERE NOTE FORMS STARTS HERE
 const signUp = (data) => {
   console.log(data);
 
@@ -42,9 +43,26 @@ const signOut = () => {
   });
 };
 
+//GAME LOGIC STARTS HERE
+
+
+const newGame = (data) =>{
+  return $.ajax({
+    url: app.host + '/games',
+    method: 'POST',
+    headers: {
+      Authorization: 'Token token=' + app.user.token,
+    },
+    data,
+  });
+};
+
 module.exports = {
   signUp,
   signIn,
   changePassword,
   signOut,
+
+  //GAME LOGIC STARTS HERE
+  newGame,
 };
