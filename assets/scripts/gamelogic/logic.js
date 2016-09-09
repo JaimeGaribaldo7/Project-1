@@ -1,53 +1,39 @@
 'use strict';
 
+// NOTE THINGS I WANT TO DO
+
+//to play tic tac toe you need two players,
+//i want to assign each player an id.
+//to start, i will use x and o
+//LOOKS LIKE:
+
+let player1 = 'x';
+let player2 = 'o';
+
+// you need a board with 9 cells
+// the board has 3 rows with 3 cells each
+// the html LOOKS LIKE:
+
+```html
+
+<div class="col-xs-5 tr"></div>
+
+```;
+
+//the JS LOOKS LIKE:
+const board = ['','','','','','','','',''];
+//the board will have 9 "cells"
+
+//each cell has an "id" of its position, by class name, EXAMPLE: tr, tl, tm
 
 
 
-
-
-
-
-
-
-//set object to hold everything?
-
-  //need id from sign in to assing to "player"?
-  // signIn = require('./api.js');
-  //
-  // let player = function (signIn) {
-  //   console.log('signIn is,', signIn);
-  // };
-
-  //empty gameBoard
-  // let gameBoard = [' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' '];
-
-
-  //win conditions from empty game board
-  // start from 0
-  // let winCon= [[0, 1, 2], [3, 4, 5], [6, 7, 8],
-  //   [0, 3, 6], [0, 4, 8], [1, 4, 7],
-  //   [2, 5, 8], [6, 4, 2]];
-
-
-
-
-  // const createBoard = function(){
-  //   //For loop??? to create "gameBoard???"
-  //   for (let i = 0; i < gameBoard.length; i++){
-  //
-  //   }
-  // };
-
-
-//to put an X or O into the cell?
-  // const makeMove = (data) => {
-  //   console.log(data);
-  //   return $.ajax({
-  //     url: app.host + '/sign-in',
-  //     id: data,
-  //     method: 'POST',
-  //     data: data,
-  //   });
-  // };
-
-//use the object of game to start showing the board.
+// const onNewGame = function onNewGame(event) {
+//   event.preventDefault();
+//   $('.col-xs-5').text(' ');
+//   $('.col-xs-5').data('val', '0');
+//   let data = {};
+//   apil.newGame(data)
+//   .done(uil.newGameFinished)
+//   .fail(uil.failure);
+// };
