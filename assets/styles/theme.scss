@@ -1,22 +1,25 @@
-$background-color: #98c8e8;
-$font-color: #402970;
+$background-color: #7ae5cb;
+$font-color: #278be0;
 $boxes-color: #8fd1cd;
+$box-color: #473fa1;
+
 
 $unit: 30px;
 
 
 body {
   border: 2px;
-  color: tint($font-color, 20%);
+  color: tint($font-color, 15%);
   margin: 0 auto;
   padding: 10px 0 40px;
 }
 
 .row > .col-xs-5 {
   box-sizing: border-box;
-  font-size: 55px;
+  color: shade($box-color, 20%);
+  font-size: 60px;
   height: 100px;
-  padding: 10px 10px 15px 33px;
+  padding: 5px 5px 20px 30px;
   width: 100px;
 }
 
@@ -37,52 +40,52 @@ body {
 }
 
 .tl {
-  border-bottom: 3px solid $box-color;
-  border-right: 3px solid $box-color;
+  border-bottom: 3px solid tint($box-color, 10%);
+  border-right: 3px solid tint($box-color, 10%);
 }
 
 .tm {
-  border-bottom: 3px solid $box-color;
-  border-left: 3px solid $box-color;
-  border-right: 3px solid $box-color;
+  border-bottom: 3px solid tint($box-color, 10%);
+  border-left: 3px solid tint($box-color, 10%);
+  border-right: 3px solid tint($box-color, 10%);
 }
 
 .tr {
-  border-bottom: 3px solid $box-color;
-  border-left: 3px solid $box-color;
+  border-bottom: 3px solid tint($box-color, 10%);
+  border-left: 3px solid tint($box-color, 10%);
 }
 
 .ml {
-  border-bottom: 3px solid $box-color;
-  border-right: 3px solid $box-color;
-  border-top: 3px solid $box-color;
+  border-bottom: 3px solid tint($box-color, 10%);
+  border-right: 3px solid tint($box-color, 10%);
+  border-top: 3px solid tint($box-color, 10%);
 }
 
 .mm {
-  border-bottom: 3px solid $box-color;
-  border-left: 3px solid $box-color;
-  border-right: 3px solid $box-color;
-  border-top: 3px solid $box-color;
+  border-bottom: 3px solid tint($box-color, 10%);
+  border-left: 3px solid tint($box-color, 10%);
+  border-right: 3px solid tint($box-color, 10%);
+  border-top: 3px solid tint($box-color, 10%);
 }
 
 .mr {
-  border-bottom: 3px solid $box-color;
-  border-left: 3px solid $box-color;
-  border-top: 3px solid $box-color;
+  border-bottom: 3px solid tint($box-color, 10%);
+  border-left: 3px solid tint($box-color, 10%);
+  border-top: 3px solid tint($box-color, 10%);
 }
 
 .bl {
-  border-right: 3px solid $box-color;
-  border-top: 3px solid $box-color;
+  border-right: 3px solid tint($box-color, 10%);
+  border-top: 3px solid tint($box-color, 10%);
 }
 
 .bm {
-  border-left: 3px solid $box-color;
-  border-right: 3px solid $box-color;
-  border-top: 3px solid $box-color;
+  border-left: 3px solid tint($box-color, 10%);
+  border-right: 3px solid tint($box-color, 10%);
+  border-top: 3px solid tint($box-color, 10%);
 }
 
 .br {
-  border-left: 3px solid $box-color;
-  border-top: 3px solid $box-color;
+  border-left: 3px solid tint($box-color, 10%);
+  border-top: 3px solid tint($box-color, 10%);
 }
