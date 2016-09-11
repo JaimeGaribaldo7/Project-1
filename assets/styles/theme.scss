@@ -10,6 +10,10 @@ $unit: 30px;
   display: none;
 }
 
+.game-board {
+  display: none;
+}
+
 body {
   border: 2px;
   color: tint($font-color, 15%);

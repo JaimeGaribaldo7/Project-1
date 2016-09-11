@@ -26,51 +26,14 @@
 
 //NOTE CONTINUE HERE NOTE CONTINUE HERE NOTE
 
-//code i think i need
-// const onNewGame = function onNewGame(event) {
-//   event.preventDefault();
-//   $('.col-xs-5').text(' ');
-//   $('.col-xs-5').data('val', '0');
-//   let data = {};
-//   apil.newGame(data)
-//   .done(uil.newGameFinished)
-//   .fail(uil.failure);
-// };
 
-// const gameBoard = ['', '', '', '', '', '', '', '', ''];
-//
-// let playerTurn = 0;
-// let counter = 0;
-//
-// const wasClicked = () => {
-//   if (document.getElementById('tl').clicked === true) {
-//     $('tl').on('click').html('X');
-//     console.log('wasClicked is', wasClicked);
-//   }
-//
-// };
-
-// const changeXo = () => {
-//   //needs to change from x to o on click to be displayed
-//
-//   for(let i = 0; i < gameBoard.length; i++) {
-//     playerTurn++;
-//   }
-//   if(playerTurn % 2 === 0 ) {
-//     gameBoard[index].replace(/xo/g,'x');
-//   }
-//   else{
-//     gameBoard[index].replace(/xo/g,'o');
-//   }
-//
-// };
-
-//not sure why these are here again..
-// const addHandlers = () => {
-//   $('tl').on('click', wasClicked);
-//   $('tl').append('X');
-// };
-//
-// module.exports = {
-//   addHandlers,
-// };
+// i want to check if the cell is empty and assign its value to empty
+//NOTE ^ i assigned a value of XO up in wasClicked function
+//then on click i want to assign it a value of X or O, by hiding one
+//or replacing it with ONLY one.
+//then i will alternate which one is replaced.
+//this way i can make an if statement to check if the value is X or O
+//in the order of winConditions then set the game to finished
+//havent made a function to set the game to START, or
+// game finished = false;
+//when a game is finished i need to reset the board

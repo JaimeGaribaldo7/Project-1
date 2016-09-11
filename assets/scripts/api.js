@@ -14,7 +14,7 @@ const signUp = (data) => {
 };
 
 const signIn = (data) => {
-  console.log(data);
+  // console.log(data);
   return $.ajax({
     url: app.host + '/sign-in',
     method: 'POST',
@@ -57,6 +57,19 @@ const newGame = (data) =>{
   });
 };
 
+// NOTE Need to try to make a PATCH that updates how many games the users
+//have played;;;OR their scores of wins.
+
+// const displayScores = () => {
+//   return $.ajax({
+//     url: app.host + '/games',
+//     method: 'PATCH',
+//     headers: {
+//       Authorization: 'Token token=' + app.user.token,
+//     },
+//   });
+// };
+
 module.exports = {
   signUp,
   signIn,
@@ -65,4 +78,5 @@ module.exports = {
 
   //GAME LOGIC STARTS HERE
   newGame,
+  // displayScores,
 };
