@@ -41,8 +41,8 @@
         <button type='button' class="new-game-button">New Game!</button>
       </nav>
       <h2>Tic Tac Toe</h2>
-      <div id="winner" class="column-left"></div>
-      <div class="column-center">
+      <div id="winner" class="col-lg-3"></div>
+      <div class="col-lg-6">
         <div class="game-board">
           <!-- IDK why using 5 works for the css i want. NOTE ASK WHY -->
           <div class="row">
@@ -62,15 +62,15 @@
           </div>
         </div>
       </div>
-      <div class="column-right">Scores</div>
+      <div class="col-lg-3" id="right-side">Scores</div>
       <div class="scores" id="scores">
         <div class="player-x">
-          <h6>Player X <span id="player-x-score"></span>
-          </h6>
+          <h3>Player X <span id="player-x-score"></span>
+          </h3>
         </div>
         <div class="player-o">
-          <h6>Player O <span id="player-o-score"></span>
-          </h6>
+          <h3>Player O <span id="player-o-score"></span>
+          </h3>
         </div>
       </div>
     </body>

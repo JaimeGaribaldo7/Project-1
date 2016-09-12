@@ -17,3 +17,17 @@ body {
   };
 
 }
+
+game-board {
+  @include breakpoint(tiny) {
+
+  };
+
+  @include breakpoint(small) {
+
+  };
+
+  @include breakpoint(medium) {
+
+  };
+}

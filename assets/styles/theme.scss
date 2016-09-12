@@ -6,22 +6,22 @@ $box-color: #473fa1;
 
 $unit: 30px;
 
-// .new-game-button {
-//   display: none;
-// }
 
-// .game-board {
-//   display: none;
-// }
+.new-game-button {
+  display: none;
+}
 
-// #change-password {
-//   display: none;
-// }
-//
-// #sign-out {
-//   display: none;
-// }
+.game-board {
+  display: none;
+}
 
+#change-password {
+  display: none;
+}
+
+#sign-out {
+  display: none;
+}
 
 body {
   border: 2px;
@@ -33,28 +33,37 @@ body {
 .row > .col-xs-5 {
   box-sizing: border-box;
   color: shade($box-color, 20%);
-  font-size: 60px;
-  height: 100px;
+  font-size: 70px;
+  font-weight: bolder;
+  height: 140px;
   padding: 5px 5px 20px 30px;
-  pointer-events: auto;
-  width: 100px;
+  position: relative;
+  width: 140px;
 }
 
-.column-left {
+.col-lg-3 > #winner {
   float: left;
-  width: 29%;
+  font-size: 60px;
+
 }
 
-.column-center {
-  display: inline-block;
-  margin: 0 auto;
-  width: 40%;
-}
-
-.column-right {
+.col-lg-6 {
   float: right;
-  width: 29%;
+  width: 500px;
+
 }
+
+#right-side {
+  font-size: 40px;
+}
+
+.col-lg-3 > #right-side {
+  float: right;
+  font-size: 60px;
+
+}
+
+// NOTE BORDERS FOR TIC TAC
 
 .tl {
   border-bottom: 3px solid tint($box-color, 10%);
