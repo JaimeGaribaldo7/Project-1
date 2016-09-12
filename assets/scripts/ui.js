@@ -3,15 +3,16 @@
 const app = require('./app.js');
 
 const success = (data) => {
-  console.log(data);
+  // console.log(data);
 };
 
 const changePasswordSuccess = () => {
-  console.log('password successfully changed');
+  // console.log('password successfully changed');
 };
 
 const failure = (error) => {
-  console.log(error);
+  // console.log(error);
+
 };
 
 const signInSuccess = (data) => {
@@ -22,7 +23,11 @@ const signOutSuccess = () => {
 
   app.user = null;
 
-  console.log('Signed Out!');
+// console.log('Signed Out!');
+};
+
+const newGameSuccess = () => {
+// console.log(data);
 };
 
 module.exports = {
@@ -31,4 +36,5 @@ module.exports = {
   signInSuccess,
   changePasswordSuccess,
   signOutSuccess,
+  newGameSuccess,
 };

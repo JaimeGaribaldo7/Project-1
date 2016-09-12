@@ -20,6 +20,11 @@
 
 // NOTE const board = ['','','','','','','','',''];
 
+
+// let winCon = [[0, 1, 2], [3, 4, 5],
+//   [6, 7, 8], [0, 3, 6], [0, 4, 8],
+//   [1, 4, 7], [2, 5, 8], [6, 4, 2]];
+
 //the board will have 9 "cells"
 
 //each cell has an "id" of its position, by class name, EXAMPLE: tr, tl, tm

@@ -1,21 +1,8 @@
 'use strict';
 
 const getFormFields = require('../../lib/get-form-fields');
-
 const api = require('./api');
-
 const ui = require('./ui');
-
-//GAME LOGIC
-const player1 = {
-  symbol: 'X'
-};
-
-const player2 = {
-  symbol: 'O',
-};
-
-let playerTurn = 1;
 
 //FORMS
 const onSignUp = function (event) {
@@ -26,17 +13,16 @@ const onSignUp = function (event) {
   .done(ui.success)
   .fail(ui.failure);
 };
-
 const onSignIn = function (event) {
   event.preventDefault();
   let data = getFormFields(event.target);
   $( ".new-game-button" ).show();
   $( ".game-board" ).show();
+  $( "#sign-out" ).show();
   api.signIn(data)
   .done(ui.signInSuccess)
   .fail(ui.failure);
 };
-
 const onChangePassword = function (event) {
   event.preventDefault();
   let data = getFormFields(event.target);
@@ -45,10 +31,11 @@ const onChangePassword = function (event) {
   .done(ui.changePasswordSuccess)
   .fail(ui.failure);
 };
-
 const onSignOut = function () {
   event.preventDefault();
   $( ".new-game-button" ).hide();
+  $( ".game-board" ).hide();
+  $( "#change-password" ).hide();
   api.signOut()
   .done(ui.signOutSuccess)
   .fail(ui.failure);
@@ -56,14 +43,54 @@ const onSignOut = function () {
 
 // NOTE GAME LOGIC
 
-const gameBoard = ['', '', '', '', '', '', '', '', ''];
+let gameBoard = ['', '', '', '', '', '', '', '', ''];
+let playerTurn = 1;
+let winner;
 
-// let winCon = [[0, 1, 2], [3, 4, 5],
-//   [6, 7, 8], [0, 3, 6], [0, 4, 8],
-//   [1, 4, 7], [2, 5, 8], [6, 4, 2]];
+let xScore = 0;
+let oScore = 0;
+
+
+const player1 = {
+  symbol: 'X'
+};
+const player2 = {
+  symbol: 'O',
+};
+
+const checkWinner = function (player) {
+  event.preventDefault();
+  const combo1 = gameBoard[0] === player && gameBoard[1] === player && gameBoard[2] === player ;
+  const combo2 = gameBoard[3] === player && gameBoard[4] === player && gameBoard[5] === player ;
+  const combo3 = gameBoard[6] === player && gameBoard[7] === player && gameBoard[8] === player ;
+  const combo4 = gameBoard[0] === player && gameBoard[3] === player && gameBoard[6] === player ;
+  const combo5 = gameBoard[0] === player && gameBoard[4] === player && gameBoard[8] === player ;
+  const combo6 = gameBoard[1] === player && gameBoard[4] === player && gameBoard[7] === player ;
+  const combo7 = gameBoard[2] === player && gameBoard[5] === player && gameBoard[8] === player ;
+  const combo8 = gameBoard[6] === player && gameBoard[4] === player && gameBoard[2] === player ;
+
+  if (combo1 || combo2 || combo3 || combo4 || combo5 || combo6 || combo7 || combo8) {
+    winner = player;
+    $('#winner').html('Player ' + player + ' wins!');
+    if(player === 'X') {
+      xScore++;
+    }
+    else{
+      oScore++;
+    }
+  }
+  else if (playerTurn === 9){
+    $('#winner').html('No one wins!');
+  }
+
+  $('#player-x-score').html(xScore);
+  $('#player-o-score').html(oScore);
+};
+
+
+
 
 const wasClicked = (event) => {
-  console.log('current player turn is', playerTurn);
   event.preventDefault();
   let cell = $(event.target);
   let currentPlayer = () => {
@@ -74,59 +101,36 @@ const wasClicked = (event) => {
     } else {
       switchedSymbols = player1.symbol;
     }
-    // if turn is odd somevariable = player1 symbol
-    // if turn is even somevariable = player2 symbol
+
     let index = $(cell).data('index');
-    gameBoard[index] = switchedSymbols;
 
-    return switchedSymbols;
+    if (gameBoard[index]) {
+      // console.log("YOU ALREADY ENTERED SOMETHING THERE");
+    }else {
+      gameBoard[index] = switchedSymbols;
+      checkWinner(switchedSymbols);
+      playerTurn++;
+      console.log(gameBoard);
+      console.log(playerTurn);
+      return switchedSymbols;
+    }
   };
-  console.log(cell);
   $(cell).html(currentPlayer());
-
-  console.log(gameBoard);
-    playerTurn++;
 };
-
-// NOTE maybe use someting like this for AVOIDING TWO CLICKS
-// const checkForSecondClick = (cell) => {
-//   event.preventDefault();
-//   if (cell.length > 1 ) {
-//     console.log('hey dont click the same spot!, in the console..');
-//   }
-//   else {
-//     //dont let Player symbol switch
-//     console.log('havent clicked twice');
-//   }
-// };
-
-//   //NOTE NOTE NOTE NOTE  NOTE NOTE NOTE NOTE NOTE NOTE
-
 
 const onNewGame = function onNewGame(event) {
   event.preventDefault();
-// sets all of the cells to an empty slot again?
   $('.col-xs-5').text('');
+  $('#winner').text('');
+  gameBoard = ['', '', '', '', '', '', '', '', ''];
+  playerTurn = 1;
   let data = {};
   api.newGame(data)
   .done(ui.newGameSuccess)
   .fail(ui.onError);
 };
 
-const onGameScores = function onGameScores(event) {
-  event.preventDefault();
-// sets all of the cells to an empty slot again?
-  //$('.scores right column').text(Functtion that updates scores and
-  //displayes number);
-  let data = {};
-  api.gameScores(data)
-  .done(ui.newGameSuccess)
-  .fail(ui.onError);
-};
-
-
 const addHandlers = () => {
-
   // FORMS PORTION STARTS HERE
   $('#sign-up').on('submit', onSignUp);
   $('#sign-in').on('submit', onSignIn);
@@ -137,8 +141,6 @@ const addHandlers = () => {
   $('.col-xs-5').on('click', wasClicked);
   $('.new-game-button').on('click', onNewGame);
   $( ".new-game-button" ).hide();
-
-  // $('.col-xs-5').on('click', checkForSecondClick);
 
 };
 
