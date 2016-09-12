@@ -1,0 +1,108 @@
+$background-color: #7ae5cb;
+$font-color: #278be0;
+$boxes-color: #8fd1cd;
+$box-color: #473fa1;
+
+
+$unit: 30px;
+
+// .new-game-button {
+//   display: none;
+// }
+
+// .game-board {
+//   display: none;
+// }
+
+// #change-password {
+//   display: none;
+// }
+//
+// #sign-out {
+//   display: none;
+// }
+
+
+body {
+  border: 2px;
+  color: tint($font-color, 15%);
+  margin: 0 auto;
+  padding: 10px 0 40px;
+}
+
+.row > .col-xs-5 {
+  box-sizing: border-box;
+  color: shade($box-color, 20%);
+  font-size: 60px;
+  height: 100px;
+  padding: 5px 5px 20px 30px;
+  pointer-events: auto;
+  width: 100px;
+}
+
+.column-left {
+  float: left;
+  width: 29%;
+}
+
+.column-center {
+  display: inline-block;
+  margin: 0 auto;
+  width: 40%;
+}
+
+.column-right {
+  float: right;
+  width: 29%;
+}
+
+.tl {
+  border-bottom: 3px solid tint($box-color, 10%);
+  border-right: 3px solid tint($box-color, 10%);
+}
+
+.tm {
+  border-bottom: 3px solid tint($box-color, 10%);
+  border-left: 3px solid tint($box-color, 10%);
+  border-right: 3px solid tint($box-color, 10%);
+}
+
+.tr {
+  border-bottom: 3px solid tint($box-color, 10%);
+  border-left: 3px solid tint($box-color, 10%);
+}
+
+.ml {
+  border-bottom: 3px solid tint($box-color, 10%);
+  border-right: 3px solid tint($box-color, 10%);
+  border-top: 3px solid tint($box-color, 10%);
+}
+
+.mm {
+  border-bottom: 3px solid tint($box-color, 10%);
+  border-left: 3px solid tint($box-color, 10%);
+  border-right: 3px solid tint($box-color, 10%);
+  border-top: 3px solid tint($box-color, 10%);
+}
+
+.mr {
+  border-bottom: 3px solid tint($box-color, 10%);
+  border-left: 3px solid tint($box-color, 10%);
+  border-top: 3px solid tint($box-color, 10%);
+}
+
+.bl {
+  border-right: 3px solid tint($box-color, 10%);
+  border-top: 3px solid tint($box-color, 10%);
+}
+
+.bm {
+  border-left: 3px solid tint($box-color, 10%);
+  border-right: 3px solid tint($box-color, 10%);
+  border-top: 3px solid tint($box-color, 10%);
+}
+
+.br {
+  border-left: 3px solid tint($box-color, 10%);
+  border-top: 3px solid tint($box-color, 10%);
+}

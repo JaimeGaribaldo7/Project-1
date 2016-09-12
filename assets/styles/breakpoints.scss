@@ -1,0 +1,19 @@
+@import 'breakpoint';
+
+body {
+  @include breakpoint(tiny) {
+    background-color: shade($background-color, 15%);
+    max-width: 90%;
+  };
+
+  @include breakpoint(small) {
+    background-color: shade($background-color, 5%);
+    max-width: 75%;
+  };
+
+  @include breakpoint(medium) {
+    background-color: tint($background-color, 5%);
+    max-width: 60%;
+  };
+
+}

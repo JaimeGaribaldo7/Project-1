@@ -5,25 +5,73 @@
       <script src="vendor.bundle.js" type="text/javascript" charset="utf-8" defer></script>
       <script src="bundle.js" type="text/javascript" charset="utf-8" defer></script>
     </head>
-    <body class="main-container">
-      <div class="game-container">
-        <div class="row">
-          <div class="col-xs-4">1</div>
-          <div class="col-xs-4">2</div>
-          <div class="col-xs-4">3</div>
-        </div>
-        <div class="row">
-          <div class="col-xs-4">4</div>
-          <div class="col-xs-4">5</div>
-          <div class="col-xs-4">6</div>
-        </div>
-        <div class="row">
-          <div class="col-xs-4">7</div>
-          <div class="col-xs-4">8</div>
-          <div class="col-xs-4">9</div>
+    <body class="container">
+      <nav class="Nav-Forms">
+        <form id="sign-up">
+          <fieldset>
+            <h3>Sign up!</h3>
+            <input type="email" name="credentials[email]" placeholder="Enter your email">
+            <input type="password" name="credentials[password]" placeholder="Enter your password">
+            <input type="password" name="credentials[password_confirmation]" placeholder="Confirm your password">
+            <input type="submit" name="submit" value="Sign up!">
+          </fieldset>
+        </form>
+        <form id="sign-in">
+          <fieldset>
+            <h3>Sign in!</h3>
+            <input type="email" name="credentials[email]" placeholder="Enter your email">
+            <input type="password" name="credentials[password]" placeholder="Enter your password">
+            <input type="submit" name="submit" value="Sign in!">
+          </fieldset>
+        </form>
+        <form id="change-password">
+          <fieldset>
+            <h3>Change password!</h3>
+            <input type="password" name="passwords[old]" placeholder="Old password">
+            <input type="password" name="passwords[new]" placeholder="New password">
+            <input type="submit" name="submit" value="Change password!">
+          </fieldset>
+        </form>
+        <form id="sign-out">
+          <fieldset>
+            <h3>Sign Out!</h3>
+            <input type="submit" name="submit" value="Sign Out!">
+          </fieldset>
+        </form>
+        <button type='button' class="new-game-button">New Game!</button>
+      </nav>
+      <h2>Tic Tac Toe</h2>
+      <div id="winner" class="column-left"></div>
+      <div class="column-center">
+        <div class="game-board">
+          <!-- IDK why using 5 works for the css i want. NOTE ASK WHY -->
+          <div class="row">
+            <div id="tl" class="col-xs-5 tl" data-index=0></div>
+            <div id="tm" class="col-xs-5 tm" data-index=1></div>
+            <div id="tr" class="col-xs-5 tr" data-index=2></div>
+          </div>
+          <div class="row">
+            <div id="ml" class="col-xs-5 ml" data-index=3></div>
+            <div id="mm" class="col-xs-5 mm" data-index=4></div>
+            <div id="mr" class="col-xs-5 mr" data-index=5></div>
+          </div>
+          <div class="row">
+            <div id="bl" class="col-xs-5 bl" data-index=6></div>
+            <div id="bm" class="col-xs-5 bm" data-index=7></div>
+            <div id="br" class="col-xs-5 br" data-index=8></div>
+          </div>
         </div>
       </div>
-
-
+      <div class="column-right">Scores</div>
+      <div class="scores" id="scores">
+        <div class="player-x">
+          <h6>Player X <span id="player-x-score"></span>
+          </h6>
+        </div>
+        <div class="player-o">
+          <h6>Player O <span id="player-o-score"></span>
+          </h6>
+        </div>
+      </div>
     </body>
 </html>
