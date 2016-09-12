@@ -3,9 +3,7 @@ $font-color: #278be0;
 $boxes-color: #8fd1cd;
 $box-color: #473fa1;
 
-
 $unit: 30px;
-
 
 .new-game-button {
   display: none;
@@ -23,95 +21,79 @@ $unit: 30px;
   display: none;
 }
 
-body {
-  border: 2px;
-  color: tint($font-color, 15%);
-  margin: 0 auto;
-  padding: 10px 0 40px;
-}
 
 .row > .col-xs-5 {
-  box-sizing: border-box;
-  color: shade($box-color, 20%);
-  font-size: 70px;
-  font-weight: bolder;
-  height: 140px;
+  border: 2px;
+  font-size: 60px;
+  height: 100px;
   padding: 5px 5px 20px 30px;
-  position: relative;
-  width: 140px;
+  pointer-events: auto;
+  width: 100px;
 }
 
-.col-lg-3 > #winner {
+.column-left {
   float: left;
-  font-size: 60px;
-
+  width: 29%;
 }
 
-.col-lg-6 {
+.column-center {
+  display: inline-block;
+  margin: 0 auto;
+  width: 40%;
+}
+
+.column-right {
   float: right;
-  width: 500px;
-
+  width: 29%;
 }
 
-#right-side {
-  font-size: 40px;
-}
-
-.col-lg-3 > #right-side {
-  float: right;
-  font-size: 60px;
-
-}
-
-// NOTE BORDERS FOR TIC TAC
-
-.tl {
+#tl {
   border-bottom: 3px solid tint($box-color, 10%);
   border-right: 3px solid tint($box-color, 10%);
 }
 
-.tm {
+#tm {
   border-bottom: 3px solid tint($box-color, 10%);
   border-left: 3px solid tint($box-color, 10%);
   border-right: 3px solid tint($box-color, 10%);
 }
 
-.tr {
+#tr {
   border-bottom: 3px solid tint($box-color, 10%);
   border-left: 3px solid tint($box-color, 10%);
 }
 
-.ml {
+#ml {
   border-bottom: 3px solid tint($box-color, 10%);
   border-right: 3px solid tint($box-color, 10%);
   border-top: 3px solid tint($box-color, 10%);
 }
 
-.mm {
+#mm {
   border-bottom: 3px solid tint($box-color, 10%);
   border-left: 3px solid tint($box-color, 10%);
   border-right: 3px solid tint($box-color, 10%);
   border-top: 3px solid tint($box-color, 10%);
 }
 
-.mr {
+#mr {
   border-bottom: 3px solid tint($box-color, 10%);
   border-left: 3px solid tint($box-color, 10%);
   border-top: 3px solid tint($box-color, 10%);
 }
 
-.bl {
+#bl {
   border-right: 3px solid tint($box-color, 10%);
   border-top: 3px solid tint($box-color, 10%);
 }
 
-.bm {
+#bm {
   border-left: 3px solid tint($box-color, 10%);
   border-right: 3px solid tint($box-color, 10%);
   border-top: 3px solid tint($box-color, 10%);
 }
 
-.br {
+#br {
   border-left: 3px solid tint($box-color, 10%);
   border-top: 3px solid tint($box-color, 10%);
 }

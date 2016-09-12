@@ -116,6 +116,7 @@ const wasClicked = (event) => {
     }
   };
   $(cell).html(currentPlayer());
+
 };
 
 const onNewGame = function onNewGame(event) {
