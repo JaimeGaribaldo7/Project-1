@@ -154,3 +154,4 @@ body {
 //havent made a function to set the game to START, or
 // game finished = false;
 //when a game is finished i need to reset the board
+// NOTE removed these *bundle.js vendor.js
