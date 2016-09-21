@@ -23,7 +23,7 @@ const onSignIn = function (event) {
   api.signIn(data)
   .done(ui.signInSuccess)
   .fail(ui.failure);
-  
+
 };
 
 const onChangePassword = function (event) {
@@ -50,18 +50,19 @@ const onSignOut = function () {
 let gameBoard = ['', '', '', '', '', '', '', '', ''];
 let playerTurn = 1;
 let winner;
+let currentPlayer = 'X';
 
 let xScore = 0;
 
 let oScore = 0;
 
-const player1 = {
-  symbol: 'X',
-};
-
-const player2 = {
-  symbol: 'O',
-};
+// const player1 = {
+//   symbol: 'X',
+// };
+//
+// const player2 = {
+//   symbol: 'O',
+// };
 
 const checkWinner = function (player) {
   event.preventDefault();
@@ -90,17 +91,26 @@ const checkWinner = function (player) {
   $('#player-o-score').html(oScore);
 };
 
+const switchPlayers = () => {
+  if (playerTurn % 2 === 0) {
+    currentPlayer = 'O';
+  } else {
+    currentPlayer = 'X';
+  }
+
+};
+
 const wasClicked = (event) => {
   event.preventDefault();
   let cell = $(event.target);
-  let currentPlayer = () => {
-    let switchedSymbols;
-
-    if (playerTurn % 2 === 0) {
-      switchedSymbols = player2.symbol;
-    } else {
-      switchedSymbols = player1.symbol;
-    }
+  let main = () => {
+    // let switchedSymbols;
+    switchPlayers();
+    // if (playerTurn % 2 === 0) {
+    //   switchedSymbols = player2.symbol;
+    // } else {
+    //   switchedSymbols = player1.symbol;
+    // }
 
     let index = $(cell).data('index');
 
@@ -109,18 +119,19 @@ const wasClicked = (event) => {
 
       // can i use !bang to make this the IF statement, not the ELSE GOOGLE DIDNT HELP
     } else {
-      gameBoard[index] = switchedSymbols;
-      checkWinner(switchedSymbols);
+      gameBoard[index] = currentPlayer;
+      checkWinner(currentPlayer);
       playerTurn++;
       console.log(gameBoard);
       console.log(playerTurn);
-      return switchedSymbols;
+      return currentPlayer;
     }
   };
 
-  $(cell).html(currentPlayer());
+  $(cell).html(main());
 
 };
+
 
 const onNewGame = function onNewGame(event) {
   event.preventDefault();
