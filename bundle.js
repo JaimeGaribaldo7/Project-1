@@ -62,25 +62,28 @@ webpackJsonp([0],[
 
 	  api.signUp(data).done(ui.success).fail(ui.failure);
 	};
+
 	var onSignIn = function onSignIn(event) {
 	  event.preventDefault();
 	  var data = getFormFields(event.target);
-	  $(".new-game-button").show();
-	  $(".game-board").show();
-	  $("#sign-out").show();
+	  $('.new-game-button').show();
+	  $('.game-board').show();
+	  $('#sign-out').show();
 	  api.signIn(data).done(ui.signInSuccess).fail(ui.failure);
 	};
+
 	var onChangePassword = function onChangePassword(event) {
 	  event.preventDefault();
 	  var data = getFormFields(event.target);
 
 	  api.changePassword(data).done(ui.changePasswordSuccess).fail(ui.failure);
 	};
+
 	var onSignOut = function onSignOut() {
 	  event.preventDefault();
-	  $(".new-game-button").hide();
-	  $(".game-board").hide();
-	  $("#change-password").hide();
+	  $('.new-game-button').hide();
+	  $('.game-board').hide();
+	  $('#change-password').hide();
 	  api.signOut().done(ui.signOutSuccess).fail(ui.failure);
 	};
 
@@ -91,11 +94,13 @@ webpackJsonp([0],[
 	var winner = void 0;
 
 	var xScore = 0;
+
 	var oScore = 0;
 
 	var player1 = {
 	  symbol: 'X'
 	};
+
 	var player2 = {
 	  symbol: 'O'
 	};
@@ -142,7 +147,9 @@ webpackJsonp([0],[
 	    var index = $(cell).data('index');
 
 	    if (gameBoard[index]) {
-	      // console.log("YOU ALREADY ENTERED SOMETHING THERE");
+	      console.log('YOU ALREADY ENTERED SOMETHING THERE');
+
+	      // can i use !bang to make this the IF statement, not the ELSE GOOGLE DIDNT HELP
 	    } else {
 	      gameBoard[index] = switchedSymbols;
 	      checkWinner(switchedSymbols);
@@ -152,6 +159,7 @@ webpackJsonp([0],[
 	      return switchedSymbols;
 	    }
 	  };
+
 	  $(cell).html(currentPlayer());
 	};
 
@@ -166,6 +174,7 @@ webpackJsonp([0],[
 	};
 
 	var addHandlers = function addHandlers() {
+
 	  // FORMS PORTION STARTS HERE
 	  $('#sign-up').on('submit', onSignUp);
 	  $('#sign-in').on('submit', onSignIn);
@@ -175,7 +184,7 @@ webpackJsonp([0],[
 	  //GAME LOGIC PORTION STARTS HERE
 	  $('.col-xs-5').on('click', wasClicked);
 	  $('.new-game-button').on('click', onNewGame);
-	  $(".new-game-button").hide();
+	  $('.new-game-button').hide();
 	};
 
 	module.exports = {
@@ -264,6 +273,7 @@ webpackJsonp([0],[
 	    url: app.host + '/sign-up',
 	    method: 'POST',
 	    data: data
+
 	  });
 	};
 
@@ -299,21 +309,21 @@ webpackJsonp([0],[
 
 	//GAME LOGIC STARTS HERE
 
+	var newGame = function newGame() {
 
-	var newGame = function newGame(data) {
+	  // Access-Control-Allow-Origin
 	  return $.ajax({
 	    url: app.host + '/games',
 	    method: 'POST',
 	    headers: {
 	      Authorization: 'Token token=' + app.user.token
 	    },
-	    data: data
+	    data: {}
 	  });
 	};
 
 	// NOTE Need to try to make a PATCH that updates how many games the users
 	//have played;;;OR their scores of wins.
-
 	// const displayScores = () => {
 	//   return $.ajax({
 	//     url: app.host + '/games',
@@ -332,6 +342,7 @@ webpackJsonp([0],[
 
 	  //GAME LOGIC STARTS HERE
 	  newGame: newGame
+
 	};
 	/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(2)))
 
@@ -342,7 +353,9 @@ webpackJsonp([0],[
 	'use strict';
 
 	var app = {
-	  host: 'http://tic-tac-toe.wdibos.com'
+	  // host: 'http://tic-tac-toe.wdibos.com',
+
+	  host: 'https://aqueous-atoll-85096.herokuapp.com'
 	};
 
 	module.exports = app;
@@ -356,16 +369,15 @@ webpackJsonp([0],[
 	var app = __webpack_require__(6);
 
 	var success = function success(data) {
-	  // console.log(data);
+	  console.log(data);
 	};
 
 	var changePasswordSuccess = function changePasswordSuccess() {
-	  // console.log('password successfully changed');
+	  console.log('password successfully changed');
 	};
 
 	var failure = function failure(error) {
-	  // console.log(error);
-
+	  console.log(error);
 	};
 
 	var signInSuccess = function signInSuccess(data) {
@@ -379,8 +391,8 @@ webpackJsonp([0],[
 	  // console.log('Signed Out!');
 	};
 
-	var newGameSuccess = function newGameSuccess() {
-	  // console.log(data);
+	var newGameSuccess = function newGameSuccess(data) {
+	  console.log(data);
 	};
 
 	module.exports = {
