@@ -17,9 +17,10 @@ const onSignUp = function (event) {
 const onSignIn = function (event) {
   event.preventDefault();
   let data = getFormFields(event.target);
-  $('.new-game-button').show();
-  $('.game-board').show();
-  $('#sign-out').show();
+  // $('.new-game-button').show();
+  // $('.game-board').show();
+  // $('#sign-out').show();
+  // $('.change-password').show();
   api.signIn(data)
   .done(ui.signInSuccess)
   .fail(ui.failure);
@@ -55,14 +56,6 @@ let currentPlayer = 'X';
 let xScore = 0;
 
 let oScore = 0;
-
-// const player1 = {
-//   symbol: 'X',
-// };
-//
-// const player2 = {
-//   symbol: 'O',
-// };
 
 const checkWinner = function (player) {
   event.preventDefault();
@@ -104,13 +97,7 @@ const wasClicked = (event) => {
   event.preventDefault();
   let cell = $(event.target);
   let main = () => {
-    // let switchedSymbols;
     switchPlayers();
-    // if (playerTurn % 2 === 0) {
-    //   switchedSymbols = player2.symbol;
-    // } else {
-    //   switchedSymbols = player1.symbol;
-    // }
 
     let index = $(cell).data('index');
 

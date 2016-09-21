@@ -7,6 +7,7 @@ const success = (data) => {
 };
 
 const changePasswordSuccess = () => {
+
   console.log('password successfully changed');
 };
 
@@ -16,6 +17,10 @@ const failure = (error) => {
 
 const signInSuccess = (data) => {
   app.user = data.user;
+  $('.new-game-button').show();
+  $('.game-board').show();
+  $('#sign-out').show();
+  $('.change-password').show();
 };
 
 const signOutSuccess = () => {
