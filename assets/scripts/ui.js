@@ -12,7 +12,6 @@ const changePasswordSuccess = () => {
 
 const failure = (error) => {
   console.log(error);
-
 };
 
 const signInSuccess = (data) => {
