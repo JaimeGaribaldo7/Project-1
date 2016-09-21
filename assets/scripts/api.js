@@ -10,6 +10,7 @@ const signUp = (data) => {
     url: app.host + '/sign-up',
     method: 'POST',
     data: data,
+
   });
 };
 
@@ -45,21 +46,21 @@ const signOut = () => {
 
 //GAME LOGIC STARTS HERE
 
+const newGame = () => {
 
-const newGame = (data) =>{
+  // Access-Control-Allow-Origin
   return $.ajax({
     url: app.host + '/games',
     method: 'POST',
     headers: {
       Authorization: 'Token token=' + app.user.token,
     },
-    data,
+    data: {},
   });
 };
 
 // NOTE Need to try to make a PATCH that updates how many games the users
 //have played;;;OR their scores of wins.
-
 // const displayScores = () => {
 //   return $.ajax({
 //     url: app.host + '/games',
@@ -78,5 +79,6 @@ module.exports = {
 
   //GAME LOGIC STARTS HERE
   newGame,
+
   // displayScores,
 };

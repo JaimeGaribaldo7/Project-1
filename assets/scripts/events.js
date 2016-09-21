@@ -13,16 +13,18 @@ const onSignUp = function (event) {
   .done(ui.success)
   .fail(ui.failure);
 };
+
 const onSignIn = function (event) {
   event.preventDefault();
   let data = getFormFields(event.target);
-  $( ".new-game-button" ).show();
-  $( ".game-board" ).show();
-  $( "#sign-out" ).show();
+  $('.new-game-button').show();
+  $('.game-board').show();
+  $('#sign-out').show();
   api.signIn(data)
   .done(ui.signInSuccess)
   .fail(ui.failure);
 };
+
 const onChangePassword = function (event) {
   event.preventDefault();
   let data = getFormFields(event.target);
@@ -31,11 +33,12 @@ const onChangePassword = function (event) {
   .done(ui.changePasswordSuccess)
   .fail(ui.failure);
 };
+
 const onSignOut = function () {
   event.preventDefault();
-  $( ".new-game-button" ).hide();
-  $( ".game-board" ).hide();
-  $( "#change-password" ).hide();
+  $('.new-game-button').hide();
+  $('.game-board').hide();
+  $('#change-password').hide();
   api.signOut()
   .done(ui.signOutSuccess)
   .fail(ui.failure);
@@ -48,47 +51,43 @@ let playerTurn = 1;
 let winner;
 
 let xScore = 0;
+
 let oScore = 0;
 
-
 const player1 = {
-  symbol: 'X'
+  symbol: 'X',
 };
+
 const player2 = {
   symbol: 'O',
 };
 
 const checkWinner = function (player) {
   event.preventDefault();
-  const combo1 = gameBoard[0] === player && gameBoard[1] === player && gameBoard[2] === player ;
-  const combo2 = gameBoard[3] === player && gameBoard[4] === player && gameBoard[5] === player ;
-  const combo3 = gameBoard[6] === player && gameBoard[7] === player && gameBoard[8] === player ;
-  const combo4 = gameBoard[0] === player && gameBoard[3] === player && gameBoard[6] === player ;
-  const combo5 = gameBoard[0] === player && gameBoard[4] === player && gameBoard[8] === player ;
-  const combo6 = gameBoard[1] === player && gameBoard[4] === player && gameBoard[7] === player ;
-  const combo7 = gameBoard[2] === player && gameBoard[5] === player && gameBoard[8] === player ;
-  const combo8 = gameBoard[6] === player && gameBoard[4] === player && gameBoard[2] === player ;
+  const combo1 = gameBoard[0] === player && gameBoard[1] === player && gameBoard[2] === player;
+  const combo2 = gameBoard[3] === player && gameBoard[4] === player && gameBoard[5] === player;
+  const combo3 = gameBoard[6] === player && gameBoard[7] === player && gameBoard[8] === player;
+  const combo4 = gameBoard[0] === player && gameBoard[3] === player && gameBoard[6] === player;
+  const combo5 = gameBoard[0] === player && gameBoard[4] === player && gameBoard[8] === player;
+  const combo6 = gameBoard[1] === player && gameBoard[4] === player && gameBoard[7] === player;
+  const combo7 = gameBoard[2] === player && gameBoard[5] === player && gameBoard[8] === player;
+  const combo8 = gameBoard[6] === player && gameBoard[4] === player && gameBoard[2] === player;
 
   if (combo1 || combo2 || combo3 || combo4 || combo5 || combo6 || combo7 || combo8) {
     winner = player;
     $('#winner').html('Player ' + player + ' wins!');
-    if(player === 'X') {
+    if (player === 'X') {
       xScore++;
-    }
-    else{
+    } else {
       oScore++;
     }
-  }
-  else if (playerTurn === 9){
+  } else if (playerTurn === 9) {
     $('#winner').html('No one wins!');
   }
 
   $('#player-x-score').html(xScore);
   $('#player-o-score').html(oScore);
 };
-
-
-
 
 const wasClicked = (event) => {
   event.preventDefault();
@@ -105,8 +104,10 @@ const wasClicked = (event) => {
     let index = $(cell).data('index');
 
     if (gameBoard[index]) {
-      // console.log("YOU ALREADY ENTERED SOMETHING THERE");
-    }else {
+      console.log('YOU ALREADY ENTERED SOMETHING THERE');
+
+      // can i use !bang to make this the IF statement, not the ELSE GOOGLE DIDNT HELP
+    } else {
       gameBoard[index] = switchedSymbols;
       checkWinner(switchedSymbols);
       playerTurn++;
@@ -115,6 +116,7 @@ const wasClicked = (event) => {
       return switchedSymbols;
     }
   };
+
   $(cell).html(currentPlayer());
 
 };
@@ -132,6 +134,7 @@ const onNewGame = function onNewGame(event) {
 };
 
 const addHandlers = () => {
+
   // FORMS PORTION STARTS HERE
   $('#sign-up').on('submit', onSignUp);
   $('#sign-in').on('submit', onSignIn);
@@ -141,7 +144,7 @@ const addHandlers = () => {
   //GAME LOGIC PORTION STARTS HERE
   $('.col-xs-5').on('click', wasClicked);
   $('.new-game-button').on('click', onNewGame);
-  $( ".new-game-button" ).hide();
+  $('.new-game-button').hide();
 
 };
 
