@@ -17,7 +17,6 @@ const onSignUp = function (event) {
 const onSignIn = function (event) {
   event.preventDefault();
   let data = getFormFields(event.target);
-
   //wrong place need to review if this needs to stay here or go into ui.
   // $('.new-game-button').show();
   // $('.game-board').show();
@@ -26,6 +25,7 @@ const onSignIn = function (event) {
   api.signIn(data)
   .done(ui.signInSuccess)
   .fail(ui.failure);
+
 
 };
 
@@ -94,10 +94,10 @@ const updateScores = () => {
 
   api.displayScores(data)
   .done((data)=>{
-    console.log(data, '>>>>>>>>>>>>>>>>>>');
+    console.log(data, 'this is data!!');
   })
   .fail((err) => {
-    console.log(err, 'ERROR >>>>');
+    console.log(err, 'ERROR this is error');
   });
 
   // api.getScores().done(function(res, data) {

@@ -17,9 +17,9 @@ const failure = (error) => {
 const signInSuccess = (data) => {
   app.user = data.user;
   $('.new-game-button').show();
-  $('.game-board').show();
   $('#sign-out').show();
   $('.change-password').show();
+  $('#right-side').text('Hit the NewGame button to play!');
 };
 
 const signOutSuccess = () => {
@@ -31,6 +31,9 @@ const signOutSuccess = () => {
 
 const newGameSuccess = (data) => {
   console.log(data);
+  $('.game-board').show();
+  $('#right-side').text('');
+
 };
 
 // const updateScores = (score) => {
