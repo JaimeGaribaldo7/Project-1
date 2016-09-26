@@ -100,10 +100,10 @@ const updateScores = () => {
     console.log(err, 'ERROR this is error');
   });
 
-  // api.getScores().done(function(res, data) {
-  //   console.log('response', res);
-  //   console.log('res data', data);
-  // });
+  api.makeGet().done(function(res, data) {
+    console.log('response', res);
+    console.log('res data', data);
+  });
 
 };
 
@@ -158,6 +158,11 @@ const wasClicked = (event) => {
   $(cell).html(main());
 
 };
+// const onPatchScores = () => {
+//   event.preventDefault();
+//   let data = {};
+//   api.patchScores(data);
+// };
 
 const addHandlers = () => {
 
@@ -172,6 +177,8 @@ const addHandlers = () => {
   $('.new-game-button').on('click', onNewGame);
   $('.new-game-button').hide();
   $('.winner').on('updateScores', updateScores);
+  // $('.col-xs-5').on('click', onPatchScores);
+
 };
 
 module.exports = {

@@ -73,12 +73,24 @@ const displayScores = (data) => {
     }
   });
 };
+// THIS IS BAD REQUEST
+// const patchScores = (data) => {
+//   console.log('inside patchScores >>>>>>');
+//   return $.ajax({
+//     url: app.host + '/games/' + app.user.id,
+//     method: 'PATCH',
+//     headers: {
+//       Authorization: 'Token token=' + app.user.token,
+//     },
+//     data: data,
+//   });
+// };
 
-const getScores = () => {
-  console.log('inside getScores >>>>>>');
+const makeGet = () => {
+  console.log('inside makeGet >>>>>>');
   let data = {};
   return $.ajax({
-    url: app.host + '/games/' + app.user.id,
+    url: app.host + '/games/',
     method: 'GET',
     headers: {
       Authorization: 'Token token=' + app.user.token,
@@ -96,5 +108,6 @@ module.exports = {
   //GAME LOGIC STARTS HERE
   newGame,
   displayScores,
-  getScores
+  // patchScores,
+  makeGet
 };
