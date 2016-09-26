@@ -66,9 +66,12 @@ webpackJsonp([0],[
 	var onSignIn = function onSignIn(event) {
 	  event.preventDefault();
 	  var data = getFormFields(event.target);
-	  $('.new-game-button').show();
-	  $('.game-board').show();
-	  $('#sign-out').show();
+
+	  //wrong place need to review if this needs to stay here or go into ui.
+	  // $('.new-game-button').show();
+	  // $('.game-board').show();
+	  // $('#sign-out').show();
+	  // $('.change-password').show();
 	  api.signIn(data).done(ui.signInSuccess).fail(ui.failure);
 	};
 
@@ -92,17 +95,52 @@ webpackJsonp([0],[
 	var gameBoard = ['', '', '', '', '', '', '', '', ''];
 	var playerTurn = 1;
 	var winner = void 0;
+	var currentPlayer = 'X';
 
 	var xScore = 0;
 
 	var oScore = 0;
 
-	var player1 = {
-	  symbol: 'X'
+	var switchPlayers = function switchPlayers() {
+	  if (playerTurn % 2 === 0) {
+	    currentPlayer = 'O';
+	  } else {
+	    currentPlayer = 'X';
+	  }
 	};
 
-	var player2 = {
-	  symbol: 'O'
+	var onNewGame = function onNewGame(event) {
+	  event.preventDefault();
+	  $('.col-xs-5').text('');
+	  $('#winner').text('');
+	  gameBoard = ['', '', '', '', '', '', '', '', ''];
+	  playerTurn = 1;
+	  var data = {};
+	  api.newGame(data).done(ui.newGameSuccess).fail(ui.failure);
+	};
+
+	var updateScores = function updateScores() {
+	  // let winnerStr = winner === 'X' ? 'player_x' : 'player_o';
+	  event.preventDefault();
+	  var data = {
+	    game: {
+	      over: true,
+	      player_x: {
+	        wins: 1
+	      }
+	    }
+	  };
+
+	  api.displayScores(data).done(function (data) {
+	    console.log(data, '>>>>>>>>>>>>>>>>>>');
+	  }).fail(function (err) {
+	    console.log(err, 'ERROR >>>>');
+	  });
+
+	  // api.getScores().done(function(res, data) {
+	  //   console.log('response', res);
+	  //   console.log('res data', data);
+	  // });
 	};
 
 	var checkWinner = function checkWinner(player) {
@@ -119,6 +157,7 @@ webpackJsonp([0],[
 	  if (combo1 || combo2 || combo3 || combo4 || combo5 || combo6 || combo7 || combo8) {
 	    winner = player;
 	    $('#winner').html('Player ' + player + ' wins!');
+	    updateScores(player);
 	    if (player === 'X') {
 	      xScore++;
 	    } else {
@@ -135,14 +174,8 @@ webpackJsonp([0],[
 	var wasClicked = function wasClicked(event) {
 	  event.preventDefault();
 	  var cell = $(event.target);
-	  var currentPlayer = function currentPlayer() {
-	    var switchedSymbols = void 0;
-
-	    if (playerTurn % 2 === 0) {
-	      switchedSymbols = player2.symbol;
-	    } else {
-	      switchedSymbols = player1.symbol;
-	    }
+	  var main = function main() {
+	    switchPlayers();
 
 	    var index = $(cell).data('index');
 
@@ -151,26 +184,14 @@ webpackJsonp([0],[
 
 	      // can i use !bang to make this the IF statement, not the ELSE GOOGLE DIDNT HELP
 	    } else {
-	      gameBoard[index] = switchedSymbols;
-	      checkWinner(switchedSymbols);
+	      gameBoard[index] = currentPlayer;
+	      checkWinner(currentPlayer);
 	      playerTurn++;
-	      console.log(gameBoard);
-	      console.log(playerTurn);
-	      return switchedSymbols;
+	      return currentPlayer;
 	    }
 	  };
 
-	  $(cell).html(currentPlayer());
-	};
-
-	var onNewGame = function onNewGame(event) {
-	  event.preventDefault();
-	  $('.col-xs-5').text('');
-	  $('#winner').text('');
-	  gameBoard = ['', '', '', '', '', '', '', '', ''];
-	  playerTurn = 1;
-	  var data = {};
-	  api.newGame(data).done(ui.newGameSuccess).fail(ui.onError);
+	  $(cell).html(main());
 	};
 
 	var addHandlers = function addHandlers() {
@@ -185,6 +206,7 @@ webpackJsonp([0],[
 	  $('.col-xs-5').on('click', wasClicked);
 	  $('.new-game-button').on('click', onNewGame);
 	  $('.new-game-button').hide();
+	  $('.winner').on('updateScores', updateScores);
 	};
 
 	module.exports = {
@@ -273,7 +295,6 @@ webpackJsonp([0],[
 	    url: app.host + '/sign-up',
 	    method: 'POST',
 	    data: data
-
 	  });
 	};
 
@@ -310,29 +331,46 @@ webpackJsonp([0],[
 	//GAME LOGIC STARTS HERE
 
 	var newGame = function newGame() {
-
-	  // Access-Control-Allow-Origin
 	  return $.ajax({
 	    url: app.host + '/games',
 	    method: 'POST',
 	    headers: {
 	      Authorization: 'Token token=' + app.user.token
 	    },
-	    data: {}
+	    data: {},
+	    success: function success(data) {
+	      console.log(data, 'frmo post >>>>');
+	    }
 	  });
 	};
 
-	// NOTE Need to try to make a PATCH that updates how many games the users
-	//have played;;;OR their scores of wins.
-	// const displayScores = () => {
-	//   return $.ajax({
-	//     url: app.host + '/games',
-	//     method: 'PATCH',
-	//     headers: {
-	//       Authorization: 'Token token=' + app.user.token,
-	//     },
-	//   });
-	// };
+	var displayScores = function displayScores(data) {
+	  return $.ajax({
+	    url: app.host + '/games/' + app.user.id,
+	    method: 'PATCH',
+	    headers: {
+	      Authorization: 'Token token=' + app.user.token
+	    },
+	    data: data,
+	    success: function success(data) {
+	      // update board with board values from
+	      console.log(data, "##########");
+	    }
+	  });
+	};
+
+	var getScores = function getScores() {
+	  console.log('inside getScores >>>>>>');
+	  var data = {};
+	  return $.ajax({
+	    url: app.host + '/games/' + app.user.id,
+	    method: 'GET',
+	    headers: {
+	      Authorization: 'Token token=' + app.user.token
+	    },
+	    data: data
+	  });
+	};
 
 	module.exports = {
 	  signUp: signUp,
@@ -341,8 +379,9 @@ webpackJsonp([0],[
 	  signOut: signOut,
 
 	  //GAME LOGIC STARTS HERE
-	  newGame: newGame
-
+	  newGame: newGame,
+	  displayScores: displayScores,
+	  getScores: getScores
 	};
 	/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(2)))
 
@@ -364,7 +403,7 @@ webpackJsonp([0],[
 /* 7 */
 /***/ function(module, exports, __webpack_require__) {
 
-	'use strict';
+	/* WEBPACK VAR INJECTION */(function($) {'use strict';
 
 	var app = __webpack_require__(6);
 
@@ -382,6 +421,10 @@ webpackJsonp([0],[
 
 	var signInSuccess = function signInSuccess(data) {
 	  app.user = data.user;
+	  $('.new-game-button').show();
+	  $('.game-board').show();
+	  $('#sign-out').show();
+	  $('.change-password').show();
 	};
 
 	var signOutSuccess = function signOutSuccess() {
@@ -395,6 +438,17 @@ webpackJsonp([0],[
 	  console.log(data);
 	};
 
+	// const updateScores = (score) => {
+	//   return $.ajax({
+	//     url: app.host + '/change-password/' + app.user.id,
+	//     method: 'PATCH',
+	//     headers: {
+	//       Authorization: 'Token token=' + app.user.token,
+	//     },
+	//     data: score
+	//   });
+	// };
+
 	module.exports = {
 	  failure: failure,
 	  success: success,
@@ -403,6 +457,7 @@ webpackJsonp([0],[
 	  signOutSuccess: signOutSuccess,
 	  newGameSuccess: newGameSuccess
 	};
+	/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(2)))
 
 /***/ },
 /* 8 */,
