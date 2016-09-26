@@ -7,7 +7,6 @@ const success = (data) => {
 };
 
 const changePasswordSuccess = () => {
-
   console.log('password successfully changed');
 };
 
@@ -34,6 +33,17 @@ const newGameSuccess = (data) => {
   console.log(data);
 };
 
+// const updateScores = (score) => {
+//   return $.ajax({
+//     url: app.host + '/change-password/' + app.user.id,
+//     method: 'PATCH',
+//     headers: {
+//       Authorization: 'Token token=' + app.user.token,
+//     },
+//     data: score
+//   });
+// };
+
 module.exports = {
   failure,
   success,
@@ -41,4 +51,5 @@ module.exports = {
   changePasswordSuccess,
   signOutSuccess,
   newGameSuccess,
+  // updateScores
 };

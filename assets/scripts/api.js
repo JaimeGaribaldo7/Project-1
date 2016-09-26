@@ -10,7 +10,6 @@ const signUp = (data) => {
     url: app.host + '/sign-up',
     method: 'POST',
     data: data,
-
   });
 };
 
@@ -47,7 +46,6 @@ const signOut = () => {
 //GAME LOGIC STARTS HERE
 
 const newGame = () => {
-
   return $.ajax({
     url: app.host + '/games',
     method: 'POST',
@@ -55,13 +53,33 @@ const newGame = () => {
       Authorization: 'Token token=' + app.user.token,
     },
     data: {},
+    success: (data) => {
+      console.log(data, 'frmo post >>>>');
+    }
   });
 };
 
 const displayScores = (data) => {
   return $.ajax({
-    url: app.host + '/games',
+    url: app.host + '/games/' + app.user.id,
     method: 'PATCH',
+    headers: {
+      Authorization: 'Token token=' + app.user.token,
+    },
+    data: data,
+    success: (data) => {
+      // update board with board values from
+      console.log(data, "##########");
+    }
+  });
+};
+
+const getScores = () => {
+  console.log('inside getScores >>>>>>');
+  let data = {};
+  return $.ajax({
+    url: app.host + '/games/' + app.user.id,
+    method: 'GET',
     headers: {
       Authorization: 'Token token=' + app.user.token,
     },
@@ -78,4 +96,5 @@ module.exports = {
   //GAME LOGIC STARTS HERE
   newGame,
   displayScores,
+  getScores
 };

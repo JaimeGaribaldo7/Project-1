@@ -17,6 +17,8 @@ const onSignUp = function (event) {
 const onSignIn = function (event) {
   event.preventDefault();
   let data = getFormFields(event.target);
+
+  //wrong place need to review if this needs to stay here or go into ui.
   // $('.new-game-button').show();
   // $('.game-board').show();
   // $('#sign-out').show();
@@ -57,6 +59,54 @@ let xScore = 0;
 
 let oScore = 0;
 
+const switchPlayers = () => {
+  if (playerTurn % 2 === 0) {
+    currentPlayer = 'O';
+  } else {
+    currentPlayer = 'X';
+  }
+
+};
+
+const onNewGame = function onNewGame(event) {
+  event.preventDefault();
+  $('.col-xs-5').text('');
+  $('#winner').text('');
+  gameBoard = ['', '', '', '', '', '', '', '', ''];
+  playerTurn = 1;
+  let data = {};
+  api.newGame(data)
+  .done(ui.newGameSuccess)
+  .fail(ui.failure);
+};
+
+const updateScores = () => {
+  // let winnerStr = winner === 'X' ? 'player_x' : 'player_o';
+  event.preventDefault();
+  let data = {
+    game:{
+      over: true,
+      player_x: {
+        wins: 1
+      }
+    }
+  };
+
+  api.displayScores(data)
+  .done((data)=>{
+    console.log(data, '>>>>>>>>>>>>>>>>>>');
+  })
+  .fail((err) => {
+    console.log(err, 'ERROR >>>>');
+  });
+
+  // api.getScores().done(function(res, data) {
+  //   console.log('response', res);
+  //   console.log('res data', data);
+  // });
+
+};
+
 const checkWinner = function (player) {
   event.preventDefault();
   const combo1 = gameBoard[0] === player && gameBoard[1] === player && gameBoard[2] === player;
@@ -71,6 +121,7 @@ const checkWinner = function (player) {
   if (combo1 || combo2 || combo3 || combo4 || combo5 || combo6 || combo7 || combo8) {
     winner = player;
     $('#winner').html('Player ' + player + ' wins!');
+    updateScores(player);
     if (player === 'X') {
       xScore++;
     } else {
@@ -82,15 +133,6 @@ const checkWinner = function (player) {
 
   $('#player-x-score').html(xScore);
   $('#player-o-score').html(oScore);
-};
-
-const switchPlayers = () => {
-  if (playerTurn % 2 === 0) {
-    currentPlayer = 'O';
-  } else {
-    currentPlayer = 'X';
-  }
-
 };
 
 const wasClicked = (event) => {
@@ -109,27 +151,12 @@ const wasClicked = (event) => {
       gameBoard[index] = currentPlayer;
       checkWinner(currentPlayer);
       playerTurn++;
-      console.log(gameBoard);
-      console.log(playerTurn);
       return currentPlayer;
     }
   };
 
   $(cell).html(main());
 
-};
-
-
-const onNewGame = function onNewGame(event) {
-  event.preventDefault();
-  $('.col-xs-5').text('');
-  $('#winner').text('');
-  gameBoard = ['', '', '', '', '', '', '', '', ''];
-  playerTurn = 1;
-  let data = {};
-  api.newGame(data)
-  .done(ui.newGameSuccess)
-  .fail(ui.onError);
 };
 
 const addHandlers = () => {
@@ -144,9 +171,9 @@ const addHandlers = () => {
   $('.col-xs-5').on('click', wasClicked);
   $('.new-game-button').on('click', onNewGame);
   $('.new-game-button').hide();
-
+  $('.winner').on('updateScores', updateScores);
 };
 
 module.exports = {
-  addHandlers,
+  addHandlers
 };
