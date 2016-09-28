@@ -29,11 +29,9 @@ const signOutSuccess = () => {
   // console.log('Signed Out!');
 };
 
-const newGameSuccess = (data) => {
-  console.log(data);
+const newGameSuccess = () => {
   $('.game-board').show();
   $('#right-side').text('');
-
 };
 
 // const updateScores = (score) => {

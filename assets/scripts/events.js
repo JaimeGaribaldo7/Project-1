@@ -49,15 +49,19 @@ const onSignOut = function () {
 };
 
 // NOTE GAME LOGIC
-
-let gameBoard = ['', '', '', '', '', '', '', '', ''];
-let playerTurn = 1;
+let gameBoard, player_x, player_o, isGameOver, playerTurn;
+playerTurn = 1;
 let winner;
 let currentPlayer = 'X';
-
 let xScore = 0;
-
 let oScore = 0;
+
+const renderBoard = (board) => {
+  let newBoard = $('.board-cell');
+  for(let i = 0; i < board.length; i++ ){
+    newBoard[i].innerText = board[i];
+  }
+};
 
 const switchPlayers = () => {
   if (playerTurn % 2 === 0) {
@@ -65,46 +69,33 @@ const switchPlayers = () => {
   } else {
     currentPlayer = 'X';
   }
-
 };
 
 const onNewGame = function onNewGame(event) {
   event.preventDefault();
   $('.col-xs-5').text('');
   $('#winner').text('');
-  gameBoard = ['', '', '', '', '', '', '', '', ''];
-  playerTurn = 1;
-  let data = {};
-  api.newGame(data)
-  .done(ui.newGameSuccess)
+  api.newGame()
+  // .done(ui.newGameSuccess)
+  .done((res) => {
+    gameBoard = res.game.cells;
+    isGameOver = res.game.over;
+    player_x = res.game.player_x;
+    player_o = res.game.player_o;
+    console.log(res, 'res from newgame');
+    ui.signInSuccess(api);
+    ui.newGameSuccess();
+    renderBoard(gameBoard);
+  })
   .fail(ui.failure);
 };
 
-const updateScores = () => {
-  // let winnerStr = winner === 'X' ? 'player_x' : 'player_o';
-  event.preventDefault();
-  let data = {
-    game:{
-      over: true,
-      player_x: {
-        wins: 1
-      }
-    }
-  };
-
-  api.displayScores(data)
-  .done((data)=>{
-    console.log(data, 'this is data!!');
-  })
-  .fail((err) => {
-    console.log(err, 'ERROR this is error');
-  });
-
-  api.makeGet().done(function(res, data) {
-    console.log('response', res);
-    console.log('res data', data);
-  });
-
+const updateScores = (player) => {
+  if (player === 'X') {
+    xScore++;
+  } else {
+    oScore++;
+  }
 };
 
 const checkWinner = function (player) {
@@ -122,11 +113,11 @@ const checkWinner = function (player) {
     winner = player;
     $('#winner').html('Player ' + player + ' wins!');
     updateScores(player);
-    if (player === 'X') {
-      xScore++;
-    } else {
-      oScore++;
-    }
+    // make api call to update isOver value to true
+    api.updateGameOver().success(res => {
+      console.log(res, 'res >>>> inside updateGameOver');
+    });
+    // then user cannot click on any other cells.
   } else if (playerTurn === 9) {
     $('#winner').html('No one wins!');
   }
@@ -137,32 +128,59 @@ const checkWinner = function (player) {
 
 const wasClicked = (event) => {
   event.preventDefault();
-  let cell = $(event.target);
-  let main = () => {
+  let index = $(event.target).attr('data-index');
+  let currentCell  = $(event.target)[0];
+  // I need to check if current cell is taken
+  if (currentCell.innerText === '') {
+    currentCell.innerText = currentPlayer;
+    gameBoard[index] = currentPlayer;
+    api.updateGameBoard(gameBoard)
+      .success((res) => {
+        console.log("successful patch", res);
+      })
+      .error(err => {
+        console.log(err);
+      });
+
+    checkWinner(currentPlayer);
+    playerTurn++;
     switchPlayers();
+  } else {
+    console.log('cell is taken');
+  }
 
-    let index = $(cell).data('index');
-
-    if (gameBoard[index]) {
-      console.log('YOU ALREADY ENTERED SOMETHING THERE');
-
-      // can i use !bang to make this the IF statement, not the ELSE GOOGLE DIDNT HELP
-    } else {
-      gameBoard[index] = currentPlayer;
-      checkWinner(currentPlayer);
-      playerTurn++;
-      return currentPlayer;
-    }
-  };
-
-  $(cell).html(main());
-
+  // let main = () => {
+  //   switchPlayers();
+  //
+  //   let index = $(cell).data('index');
+  //
+  //   if (gameBoard[index]) {
+  //     console.log('YOU ALREADY ENTERED SOMETHING THERE');
+  //
+  //     // can i use !bang to make this the IF statement, not the ELSE GOOGLE DIDNT HELP
+  //   } else {
+  //     gameBoard[index] = currentPlayer;
+  //     checkWinner(currentPlayer);
+  //     playerTurn++;
+  //     console.log('this is gameBoard ######', gameBoard);
+  //     return currentPlayer;
+  //   }
+  // };
+  //
+  // $(cell).html(main());
 };
-// const onPatchScores = () => {
-//   event.preventDefault();
-//   let data = {};
-//   api.patchScores(data);
-// };
+
+const onPatchScores = () => {
+  event.preventDefault();
+  // let data = {};
+  // api.patchScores(data);
+
+  // api.makeGet().done();
+  // api.makeUpdate({name: 'jaime'}).success((res, data) => {
+  //   console.log(res);
+  //   console.log(data);
+  // });
+};
 
 const addHandlers = () => {
 
@@ -173,11 +191,11 @@ const addHandlers = () => {
   $('#sign-out').on('submit', onSignOut);
 
   //GAME LOGIC PORTION STARTS HERE
-  $('.col-xs-5').on('click', wasClicked);
+  $('.board-cell').on('click', wasClicked);
   $('.new-game-button').on('click', onNewGame);
   $('.new-game-button').hide();
-  $('.winner').on('updateScores', updateScores);
-  // $('.col-xs-5').on('click', onPatchScores);
+  // $('.winner').on('updateScores', updateScores);
+  $('.col-xs-5').on('click', onPatchScores);
 
 };
 

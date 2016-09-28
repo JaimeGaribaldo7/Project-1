@@ -4,8 +4,6 @@ const app = require('./app.js');
 
 //FORMS STARTS HERE NOTE FORMS STARTS HERE
 const signUp = (data) => {
-  console.log(data);
-
   return $.ajax({
     url: app.host + '/sign-up',
     method: 'POST',
@@ -13,12 +11,17 @@ const signUp = (data) => {
   });
 };
 
+let user;
+let host;
 const signIn = (data) => {
-  // console.log(data);
   return $.ajax({
     url: app.host + '/sign-in',
     method: 'POST',
     data: data,
+    success: (res) => {
+      user = res.user;
+      host = res.host;
+    }
   });
 };
 
@@ -33,9 +36,10 @@ const changePassword = (data) => {
   });
 };
 
-const signOut = () => {
+const signOut = (user) => {
+  console.log(user);
   return $.ajax({
-    url: app.host + '/sign-out/' + app.user.id,
+    url: host + '/sign-out/' + app.user.id,
     method: 'DELETE',
     headers: {
       Authorization: 'Token token=' + app.user.token,
@@ -46,22 +50,26 @@ const signOut = () => {
 //GAME LOGIC STARTS HERE
 
 const newGame = () => {
+  let newGameObject = {
+    cells: ['','','','','','','','',''],
+    over: false,
+    player_x: user
+  };
   return $.ajax({
-    url: app.host + '/games',
+    url: app.host + '/games/',
     method: 'POST',
     headers: {
       Authorization: 'Token token=' + app.user.token,
     },
-    data: {},
-    success: (data) => {
-      console.log(data, 'frmo post >>>>');
-    }
+    data: newGameObject
   });
 };
 
 const displayScores = (data) => {
+  console.log('USER', user);
+  console.log('host', user);
   return $.ajax({
-    url: app.host + '/games/' + app.user.id,
+    url: host + '/games/' + user.id,
     method: 'PATCH',
     headers: {
       Authorization: 'Token token=' + app.user.token,
@@ -86,18 +94,106 @@ const displayScores = (data) => {
 //   });
 // };
 
-const makeGet = () => {
-  console.log('inside makeGet >>>>>>');
-  let data = {};
+// const makeGet = () => {
+//   console.log('inside makeGet >>>>>>');
+//   let data = {};
+//   return $.ajax({
+//     url: app.host + '/games/',
+//     method: 'GET',
+//     headers: {
+//       Authorization: 'Token token=' + app.user.token,
+//     },
+//     data: data,
+//   });
+// };
+
+
+// THIS IS THE OBJECT
+// {
+//   "game": {
+//     "id": 1,
+//     "cells": ["","","","","","","","",""],
+//     "over":false,
+//     "player_x": {
+//       "id": 1,
+//       "email": "and@and.com"
+//       },
+//     "player_o": {
+//       "id": 3,
+//       "email":
+//       "dna@dna.com"
+//     }
+//   }
+// }
+
+// game state update of OBJECT
+// {
+//   "game": {
+//     "cell": {
+//       "index": index,
+//       "value": currentPlayer
+//     },
+//     "over": false
+//   }
+// }
+
+const updateGameBoard = (gameBoard) => {
+  let data = {
+    "game": {
+      "cells": gameBoard
+    }
+  };
+
   return $.ajax({
-    url: app.host + '/games/',
+    url: app.host + '/games/' + user.id,
+    method: 'PATCH',
+    headers: {
+      Authorization: 'Token token=' + user.token,
+    },
+    data: data,
+  });
+};
+
+const updateGameOver = () => {
+  let data = {
+    "game": {
+      "over": true
+    }
+  };
+
+  return $.ajax({
+    url: app.host + '/games/' + user.id,
+    method: 'PATCH',
+    headers: {
+      Authorization: 'Token token=' + user.token,
+    },
+    data: data,
+  });
+};
+
+const makeGet = () => {
+  return $.ajax({
+    url: app.host + '/games/' + app.user.id,
     method: 'GET',
+    headers: {
+      Authorization: 'Token token=' + app.user.token,
+    }
+  });
+};
+
+const makeUpdate = (data) => {
+  console.log('data is *********', data);
+  return $.ajax({
+    url: app.host + '/games/' + app.user.id,
+    method: 'PATCH',
     headers: {
       Authorization: 'Token token=' + app.user.token,
     },
     data: data,
   });
 };
+
+
 
 module.exports = {
   signUp,
@@ -109,5 +205,8 @@ module.exports = {
   newGame,
   displayScores,
   // patchScores,
-  makeGet
+  makeGet,
+  makeUpdate,
+  updateGameBoard,
+  updateGameOver
 };
