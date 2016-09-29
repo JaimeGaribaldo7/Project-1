@@ -1,6 +1,7 @@
 'use strict';
 
 const app = require('./app.js');
+const ui = require('./ui.js')
 
 //FORMS STARTS HERE NOTE FORMS STARTS HERE
 const signUp = (data) => {
@@ -13,6 +14,7 @@ const signUp = (data) => {
 
 let user;
 let host;
+let gameId;
 const signIn = (data) => {
   return $.ajax({
     url: app.host + '/sign-in',
@@ -51,10 +53,7 @@ const signOut = (user) => {
 
 const newGame = () => {
   let newGameObject = {
-    cells: ['','','','','','','','',''],
-    over: false,
-    player_x: user
-  };
+};
   $('.game-board').show();
   return $.ajax({
     url: app.host + '/games/',
@@ -62,26 +61,28 @@ const newGame = () => {
     headers: {
       Authorization: 'Token token=' + user.token,
     },
-    data: newGameObject
-  });
-};
-
-const displayScores = (data) => {
-  console.log('USER', user);
-  console.log('host', user);
-  return $.ajax({
-    url: host + '/games/' + user.id,
-    method: 'PATCH',
-    headers: {
-      Authorization: 'Token token=' + app.user.token,
-    },
-    data: data,
+    data: newGameObject,
     success: (data) => {
-      // update board with board values from
-      console.log(data, "##########");
+      // console.log(data, '>>>>>>')
+      gameId = data.game.id;
     }
   });
 };
+
+// const displayScores = (data) => {
+//   // return $.ajax({
+//   //   url: host + '/games/' + user.id,
+//   //   method: 'PATCH',
+//   //   headers: {
+//   //     Authorization: 'Token token=' + app.user.token,
+//   //   },
+//   //   data: data,
+//   //   success: (data) => {
+//   //     // update board with board values from
+//   //     console.log(data, "##########");
+//   //   }
+//   // });
+// };
 // THIS IS BAD REQUEST
 // const patchScores = (data) => {
 //   console.log('inside patchScores >>>>>>');
@@ -127,28 +128,29 @@ const displayScores = (data) => {
 // NOTE NOTE NOTE PROBLEM IS HERE
 // this is updating cell's with the currrent gameboard on each click
 // BUT NOTE it is not setting it properly @@@ "cells": gameBoard
-const updateGameBoard = (gameBoard) => {
+const updateGameBoard = (index, player) => {
   let data = {
     "game": {
-      // PROBLEM HERE
-      "cells": gameBoard,
-      // PROBLEM HERE
+      "cell": {
+        "index": index,
+        "value": player
+      },
       "over": false
     }
   };
-console.log("THIS THING IS THE UPDATED GAME BOARD", gameBoard);
-console.log("THIS THING is the new DATA", data);
+  // console.log("THIS THING IS THE UPDATED GAME BOARD", gameBoard);
+
   return $.ajax({
-    url: app.host + '/games/' + user.id,
+    url: app.host + '/games/' + gameId,
     method: 'PATCH',
     headers: {
       Authorization: 'Token token=' + user.token,
     },
     data: data,
+    success: res => {
+    }
   });
 };
-
-
 
 const updateGameOver = () => {
   let data = {
@@ -158,7 +160,7 @@ const updateGameOver = () => {
   };
   $('.game-board').hide();
   return $.ajax({
-    url: app.host + '/games/' + user.id,
+    url: app.host + '/games/' + gameId,
     method: 'PATCH',
     headers: {
       Authorization: 'Token token=' + user.token,
@@ -169,7 +171,7 @@ const updateGameOver = () => {
 
 const makeGet = () => {
   return $.ajax({
-    url: app.host + '/games/' + app.user.id,
+    url: app.host + '/games/' + gameId,
     method: 'GET',
     headers: {
       Authorization: 'Token token=' + app.user.token,
@@ -177,10 +179,24 @@ const makeGet = () => {
   });
 };
 
-const makeUpdate = (data) => {
-  console.log('data is *********', data);
+const makeUpdate = () => {
+  let data = {
+  "game": {
+    "id": 1,
+    "cells": ["o","x","o","x","o","x","o","x","o"],
+    "over": true,
+    "player_x": {
+      "id": 1,
+      "email": "and@and.com"
+    },
+    "player_o": {
+      "id": 3,
+      "email": "dna@dna.com"
+    }
+  }
+};
   return $.ajax({
-    url: app.host + '/games/' + app.user.id,
+    url: app.host + '/games/' + gameId,
     method: 'PATCH',
     headers: {
       Authorization: 'Token token=' + app.user.token,
@@ -199,7 +215,7 @@ module.exports = {
 
   //GAME LOGIC STARTS HERE
   newGame,
-  displayScores,
+  // displayScores,
   // patchScores,
   makeGet,
   makeUpdate,

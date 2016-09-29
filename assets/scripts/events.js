@@ -82,7 +82,6 @@ const onNewGame = function onNewGame(event) {
     isGameOver = res.game.over;
     player_x = res.game.player_x;
     player_o = res.game.player_o;
-    console.log(res, 'res from newgame');
     ui.signInSuccess(api);
     ui.newGameSuccess(api);
     renderBoard(gameBoard);
@@ -115,7 +114,6 @@ const checkWinner = function (player) {
     updateScores(player);
     // make api call to update isOver value to true
     api.updateGameOver().success(res => {
-      console.log(res, 'res >>>> inside updateGameOver');
     });
     // then user cannot click on any other cells.
   } else if (playerTurn === 9) {
@@ -134,20 +132,17 @@ const wasClicked = (event) => {
   if (currentCell.innerText === '') {
     currentCell.innerText = currentPlayer;
     gameBoard[index] = currentPlayer;
-    api.updateGameBoard(gameBoard)
+    api.updateGameBoard(index, currentPlayer)
     // NOTE ^THERE The gameBoard is updating
       .success((res) => {
-        console.log("successful patch", res);
       })
       .error(err => {
-        console.log(err);
       });
 
     checkWinner(currentPlayer);
     playerTurn++;
     switchPlayers();
   } else {
-    console.log('cell is taken');
   }
 
 };
