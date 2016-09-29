@@ -3,23 +3,22 @@
 const app = require('./app.js');
 
 const success = (data) => {
-  console.log(data);
+  // console.log(data);
 };
 
 const changePasswordSuccess = () => {
-  console.log('password successfully changed');
+  // console.log('password successfully changed');
 };
 
 const failure = (error) => {
-  console.log(error);
 };
 
 const signInSuccess = (data) => {
   app.user = data.user;
   $('.new-game-button').show();
-  $('.game-board').show();
   $('#sign-out').show();
   $('.change-password').show();
+  $('#right-side').text('Hit the NewGame button to play!');
 };
 
 const signOutSuccess = () => {
@@ -30,7 +29,9 @@ const signOutSuccess = () => {
 };
 
 const newGameSuccess = (data) => {
-  console.log(data);
+  // app.game = data.game;
+  // $('.game-board').show();
+  // $('#right-side').text('');
 };
 
 // const updateScores = (score) => {
