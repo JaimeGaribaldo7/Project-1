@@ -55,6 +55,7 @@ const newGame = () => {
     over: false,
     player_x: user
   };
+  $('.game-board').show();
   return $.ajax({
     url: app.host + '/games/',
     method: 'POST',
@@ -123,14 +124,20 @@ const displayScores = (data) => {
 //   }
 // }
 
+// NOTE NOTE NOTE PROBLEM IS HERE
+// this is updating cell's with the currrent gameboard on each click
+// BUT NOTE it is not setting it properly @@@ "cells": gameBoard
 const updateGameBoard = (gameBoard) => {
   let data = {
     "game": {
+      // PROBLEM HERE
       "cells": gameBoard,
+      // PROBLEM HERE
       "over": false
     }
   };
 console.log("THIS THING IS THE UPDATED GAME BOARD", gameBoard);
+console.log("THIS THING is the new DATA", data);
   return $.ajax({
     url: app.host + '/games/' + user.id,
     method: 'PATCH',
@@ -141,13 +148,15 @@ console.log("THIS THING IS THE UPDATED GAME BOARD", gameBoard);
   });
 };
 
+
+
 const updateGameOver = () => {
   let data = {
     "game": {
       "over": true
     }
   };
-
+  $('.game-board').hide();
   return $.ajax({
     url: app.host + '/games/' + user.id,
     method: 'PATCH',
