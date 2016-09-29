@@ -66,7 +66,6 @@ webpackJsonp([0],[
 	var onSignIn = function onSignIn(event) {
 	  event.preventDefault();
 	  var data = getFormFields(event.target);
-
 	  //wrong place need to review if this needs to stay here or go into ui.
 	  // $('.new-game-button').show();
 	  // $('.game-board').show();
@@ -91,15 +90,23 @@ webpackJsonp([0],[
 	};
 
 	// NOTE GAME LOGIC
-
-	var gameBoard = ['', '', '', '', '', '', '', '', ''];
-	var playerTurn = 1;
+	var gameBoard = void 0,
+	    player_x = void 0,
+	    player_o = void 0,
+	    isGameOver = void 0,
+	    playerTurn = void 0;
+	playerTurn = 1;
 	var winner = void 0;
 	var currentPlayer = 'X';
-
 	var xScore = 0;
-
 	var oScore = 0;
+
+	var renderBoard = function renderBoard(board) {
+	  var newBoard = $('.board-cell');
+	  for (var i = 0; i < board.length; i++) {
+	    newBoard[i].innerText = board[i];
+	  }
+	};
 
 	var switchPlayers = function switchPlayers() {
 	  if (playerTurn % 2 === 0) {
@@ -113,34 +120,25 @@ webpackJsonp([0],[
 	  event.preventDefault();
 	  $('.col-xs-5').text('');
 	  $('#winner').text('');
-	  gameBoard = ['', '', '', '', '', '', '', '', ''];
-	  playerTurn = 1;
-	  var data = {};
-	  api.newGame(data).done(ui.newGameSuccess).fail(ui.failure);
+	  api.newGame()
+	  // .done(ui.newGameSuccess)
+	  .done(function (res) {
+	    gameBoard = res.game.cells;
+	    isGameOver = res.game.over;
+	    player_x = res.game.player_x;
+	    player_o = res.game.player_o;
+	    ui.signInSuccess(api);
+	    ui.newGameSuccess(api);
+	    renderBoard(gameBoard);
+	  }).fail(ui.failure);
 	};
 
-	var updateScores = function updateScores() {
-	  // let winnerStr = winner === 'X' ? 'player_x' : 'player_o';
-	  event.preventDefault();
-	  var data = {
-	    game: {
-	      over: true,
-	      player_x: {
-	        wins: 1
-	      }
-	    }
-	  };
-
-	  api.displayScores(data).done(function (data) {
-	    console.log(data, '>>>>>>>>>>>>>>>>>>');
-	  }).fail(function (err) {
-	    console.log(err, 'ERROR >>>>');
-	  });
-
-	  // api.getScores().done(function(res, data) {
-	  //   console.log('response', res);
-	  //   console.log('res data', data);
-	  // });
+	var updateScores = function updateScores(player) {
+	  if (player === 'X') {
+	    xScore++;
+	  } else {
+	    oScore++;
+	  }
 	};
 
 	var checkWinner = function checkWinner(player) {
@@ -158,11 +156,9 @@ webpackJsonp([0],[
 	    winner = player;
 	    $('#winner').html('Player ' + player + ' wins!');
 	    updateScores(player);
-	    if (player === 'X') {
-	      xScore++;
-	    } else {
-	      oScore++;
-	    }
+	    // make api call to update isOver value to true
+	    api.updateGameOver().success(function (res) {});
+	    // then user cannot click on any other cells.
 	  } else if (playerTurn === 9) {
 	    $('#winner').html('No one wins!');
 	  }
@@ -173,25 +169,32 @@ webpackJsonp([0],[
 
 	var wasClicked = function wasClicked(event) {
 	  event.preventDefault();
-	  var cell = $(event.target);
-	  var main = function main() {
+	  var index = $(event.target).attr('data-index');
+	  var currentCell = $(event.target)[0];
+	  // I need to check if current cell is taken
+	  if (currentCell.innerText === '') {
+	    currentCell.innerText = currentPlayer;
+	    gameBoard[index] = currentPlayer;
+	    api.updateGameBoard(index, currentPlayer)
+	    // NOTE ^THERE The gameBoard is updating
+	    .success(function (res) {}).error(function (err) {});
+
+	    checkWinner(currentPlayer);
+	    playerTurn++;
 	    switchPlayers();
+	  } else {}
+	};
 
-	    var index = $(cell).data('index');
+	var onPatchScores = function onPatchScores() {
+	  event.preventDefault();
+	  // let data = {};
+	  // api.patchScores(data);
 
-	    if (gameBoard[index]) {
-	      console.log('YOU ALREADY ENTERED SOMETHING THERE');
-
-	      // can i use !bang to make this the IF statement, not the ELSE GOOGLE DIDNT HELP
-	    } else {
-	      gameBoard[index] = currentPlayer;
-	      checkWinner(currentPlayer);
-	      playerTurn++;
-	      return currentPlayer;
-	    }
-	  };
-
-	  $(cell).html(main());
+	  // api.makeGet().done();
+	  // api.makeUpdate({name: 'jaime'}).success((res, data) => {
+	  //   console.log(res);
+	  //   console.log(data);
+	  // });
 	};
 
 	var addHandlers = function addHandlers() {
@@ -203,10 +206,11 @@ webpackJsonp([0],[
 	  $('#sign-out').on('submit', onSignOut);
 
 	  //GAME LOGIC PORTION STARTS HERE
-	  $('.col-xs-5').on('click', wasClicked);
+	  $('.board-cell').on('click', wasClicked);
 	  $('.new-game-button').on('click', onNewGame);
 	  $('.new-game-button').hide();
-	  $('.winner').on('updateScores', updateScores);
+	  // $('.winner').on('updateScores', updateScores);
+	  $('.col-xs-5').on('click', onPatchScores);
 	};
 
 	module.exports = {
@@ -286,11 +290,10 @@ webpackJsonp([0],[
 	/* WEBPACK VAR INJECTION */(function($) {'use strict';
 
 	var app = __webpack_require__(6);
+	var ui = __webpack_require__(7);
 
 	//FORMS STARTS HERE NOTE FORMS STARTS HERE
 	var signUp = function signUp(data) {
-	  console.log(data);
-
 	  return $.ajax({
 	    url: app.host + '/sign-up',
 	    method: 'POST',
@@ -298,12 +301,18 @@ webpackJsonp([0],[
 	  });
 	};
 
+	var user = void 0;
+	var host = void 0;
+	var gameId = void 0;
 	var signIn = function signIn(data) {
-	  // console.log(data);
 	  return $.ajax({
 	    url: app.host + '/sign-in',
 	    method: 'POST',
-	    data: data
+	    data: data,
+	    success: function success(res) {
+	      user = res.user;
+	      host = res.host;
+	    }
 	  });
 	};
 
@@ -318,9 +327,10 @@ webpackJsonp([0],[
 	  });
 	};
 
-	var signOut = function signOut() {
+	var signOut = function signOut(user) {
+	  console.log(user);
 	  return $.ajax({
-	    url: app.host + '/sign-out/' + app.user.id,
+	    url: host + '/sign-out/' + app.user.id,
 	    method: 'DELETE',
 	    headers: {
 	      Authorization: 'Token token=' + app.user.token
@@ -331,40 +341,150 @@ webpackJsonp([0],[
 	//GAME LOGIC STARTS HERE
 
 	var newGame = function newGame() {
+	  var newGameObject = {};
+	  $('.game-board').show();
 	  return $.ajax({
-	    url: app.host + '/games',
+	    url: app.host + '/games/',
 	    method: 'POST',
 	    headers: {
-	      Authorization: 'Token token=' + app.user.token
+	      Authorization: 'Token token=' + user.token
 	    },
-	    data: {},
+	    data: newGameObject,
 	    success: function success(data) {
-	      console.log(data, 'frmo post >>>>');
+	      // console.log(data, '>>>>>>')
+	      gameId = data.game.id;
 	    }
 	  });
 	};
 
-	var displayScores = function displayScores(data) {
+	// const displayScores = (data) => {
+	//   // return $.ajax({
+	//   //   url: host + '/games/' + user.id,
+	//   //   method: 'PATCH',
+	//   //   headers: {
+	//   //     Authorization: 'Token token=' + app.user.token,
+	//   //   },
+	//   //   data: data,
+	//   //   success: (data) => {
+	//   //     // update board with board values from
+	//   //     console.log(data, "##########");
+	//   //   }
+	//   // });
+	// };
+	// THIS IS BAD REQUEST
+	// const patchScores = (data) => {
+	//   console.log('inside patchScores >>>>>>');
+	//   return $.ajax({
+	//     url: app.host + '/games/' + app.user.id,
+	//     method: 'PATCH',
+	//     headers: {
+	//       Authorization: 'Token token=' + app.user.token,
+	//     },
+	//     data: data,
+	//   });
+	// };
+
+	// THIS IS THE OBJECT
+	// {
+	//   "game": {
+	//     "id": 1,
+	//     "cells": ["","","","","","","","",""],
+	//     "over":false,
+	//     "player_x": {
+	//       "id": 1,
+	//       "email": "and@and.com"
+	//       },
+	//     "player_o": {
+	//       "id": 3,
+	//       "email":
+	//       "dna@dna.com"
+	//     }
+	//   }
+	// }
+
+	// game state update of OBJECT
+	// {
+	//   "game": {
+	//     "cell": {
+	//       "index": index,
+	//       "value": currentPlayer
+	//     },
+	//     "over": false
+	//   }
+	// }
+
+	// NOTE NOTE NOTE PROBLEM IS HERE
+	// this is updating cell's with the currrent gameboard on each click
+	// BUT NOTE it is not setting it properly @@@ "cells": gameBoard
+	var updateGameBoard = function updateGameBoard(index, player) {
+	  var data = {
+	    "game": {
+	      "cell": {
+	        "index": index,
+	        "value": player
+	      },
+	      "over": false
+	    }
+	  };
+	  // console.log("THIS THING IS THE UPDATED GAME BOARD", gameBoard);
+
 	  return $.ajax({
-	    url: app.host + '/games/' + app.user.id,
+	    url: app.host + '/games/' + gameId,
 	    method: 'PATCH',
 	    headers: {
-	      Authorization: 'Token token=' + app.user.token
+	      Authorization: 'Token token=' + user.token
 	    },
 	    data: data,
-	    success: function success(data) {
-	      // update board with board values from
-	      console.log(data, "##########");
+	    success: function success(res) {}
+	  });
+	};
+
+	var updateGameOver = function updateGameOver() {
+	  var data = {
+	    "game": {
+	      "over": true
+	    }
+	  };
+	  $('.game-board').hide();
+	  return $.ajax({
+	    url: app.host + '/games/' + gameId,
+	    method: 'PATCH',
+	    headers: {
+	      Authorization: 'Token token=' + user.token
+	    },
+	    data: data
+	  });
+	};
+
+	var makeGet = function makeGet() {
+	  return $.ajax({
+	    url: app.host + '/games/' + gameId,
+	    method: 'GET',
+	    headers: {
+	      Authorization: 'Token token=' + app.user.token
 	    }
 	  });
 	};
 
-	var getScores = function getScores() {
-	  console.log('inside getScores >>>>>>');
-	  var data = {};
+	var makeUpdate = function makeUpdate() {
+	  var data = {
+	    "game": {
+	      "id": 1,
+	      "cells": ["o", "x", "o", "x", "o", "x", "o", "x", "o"],
+	      "over": true,
+	      "player_x": {
+	        "id": 1,
+	        "email": "and@and.com"
+	      },
+	      "player_o": {
+	        "id": 3,
+	        "email": "dna@dna.com"
+	      }
+	    }
+	  };
 	  return $.ajax({
-	    url: app.host + '/games/' + app.user.id,
-	    method: 'GET',
+	    url: app.host + '/games/' + gameId,
+	    method: 'PATCH',
 	    headers: {
 	      Authorization: 'Token token=' + app.user.token
 	    },
@@ -380,8 +500,12 @@ webpackJsonp([0],[
 
 	  //GAME LOGIC STARTS HERE
 	  newGame: newGame,
-	  displayScores: displayScores,
-	  getScores: getScores
+	  // displayScores,
+	  // patchScores,
+	  makeGet: makeGet,
+	  makeUpdate: makeUpdate,
+	  updateGameBoard: updateGameBoard,
+	  updateGameOver: updateGameOver
 	};
 	/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(2)))
 
@@ -408,23 +532,21 @@ webpackJsonp([0],[
 	var app = __webpack_require__(6);
 
 	var success = function success(data) {
-	  console.log(data);
+	  // console.log(data);
 	};
 
 	var changePasswordSuccess = function changePasswordSuccess() {
-	  console.log('password successfully changed');
+	  // console.log('password successfully changed');
 	};
 
-	var failure = function failure(error) {
-	  console.log(error);
-	};
+	var failure = function failure(error) {};
 
 	var signInSuccess = function signInSuccess(data) {
 	  app.user = data.user;
 	  $('.new-game-button').show();
-	  $('.game-board').show();
 	  $('#sign-out').show();
 	  $('.change-password').show();
+	  $('#right-side').text('Hit the NewGame button to play!');
 	};
 
 	var signOutSuccess = function signOutSuccess() {
@@ -435,7 +557,9 @@ webpackJsonp([0],[
 	};
 
 	var newGameSuccess = function newGameSuccess(data) {
-	  console.log(data);
+	  // app.game = data.game;
+	  // $('.game-board').show();
+	  // $('#right-side').text('');
 	};
 
 	// const updateScores = (score) => {
