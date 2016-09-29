@@ -30,6 +30,7 @@ const signOutSuccess = () => {
 };
 
 const newGameSuccess = () => {
+  // app.game = data.game;
   $('.game-board').show();
   $('#right-side').text('');
 };

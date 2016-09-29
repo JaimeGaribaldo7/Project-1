@@ -59,7 +59,7 @@ const newGame = () => {
     url: app.host + '/games/',
     method: 'POST',
     headers: {
-      Authorization: 'Token token=' + app.user.token,
+      Authorization: 'Token token=' + user.token,
     },
     data: newGameObject
   });
@@ -94,20 +94,6 @@ const displayScores = (data) => {
 //   });
 // };
 
-// const makeGet = () => {
-//   console.log('inside makeGet >>>>>>');
-//   let data = {};
-//   return $.ajax({
-//     url: app.host + '/games/',
-//     method: 'GET',
-//     headers: {
-//       Authorization: 'Token token=' + app.user.token,
-//     },
-//     data: data,
-//   });
-// };
-
-
 // THIS IS THE OBJECT
 // {
 //   "game": {
@@ -140,10 +126,11 @@ const displayScores = (data) => {
 const updateGameBoard = (gameBoard) => {
   let data = {
     "game": {
-      "cells": gameBoard
+      "cells": gameBoard,
+      "over": false
     }
   };
-
+console.log("THIS THING IS THE UPDATED GAME BOARD", gameBoard);
   return $.ajax({
     url: app.host + '/games/' + user.id,
     method: 'PATCH',

@@ -84,7 +84,7 @@ const onNewGame = function onNewGame(event) {
     player_o = res.game.player_o;
     console.log(res, 'res from newgame');
     ui.signInSuccess(api);
-    ui.newGameSuccess();
+    ui.newGameSuccess(api);
     renderBoard(gameBoard);
   })
   .fail(ui.failure);
@@ -135,6 +135,7 @@ const wasClicked = (event) => {
     currentCell.innerText = currentPlayer;
     gameBoard[index] = currentPlayer;
     api.updateGameBoard(gameBoard)
+    // NOTE ^THERE The gameBoard is updating
       .success((res) => {
         console.log("successful patch", res);
       })
@@ -149,25 +150,6 @@ const wasClicked = (event) => {
     console.log('cell is taken');
   }
 
-  // let main = () => {
-  //   switchPlayers();
-  //
-  //   let index = $(cell).data('index');
-  //
-  //   if (gameBoard[index]) {
-  //     console.log('YOU ALREADY ENTERED SOMETHING THERE');
-  //
-  //     // can i use !bang to make this the IF statement, not the ELSE GOOGLE DIDNT HELP
-  //   } else {
-  //     gameBoard[index] = currentPlayer;
-  //     checkWinner(currentPlayer);
-  //     playerTurn++;
-  //     console.log('this is gameBoard ######', gameBoard);
-  //     return currentPlayer;
-  //   }
-  // };
-  //
-  // $(cell).html(main());
 };
 
 const onPatchScores = () => {
