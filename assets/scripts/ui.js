@@ -25,7 +25,7 @@ const signOutSuccess = () => {
 
   app.user = null;
 
-  // console.log('Signed Out!');
+  console.log('Signed Out!');
 };
 
 const newGameSuccess = (data) => {
