@@ -293,7 +293,6 @@ webpackJsonp([0],[
 	/* WEBPACK VAR INJECTION */(function($) {'use strict';
 
 	var app = __webpack_require__(6);
-
 	var ui = __webpack_require__(7);
 
 	//FORMS STARTS HERE NOTE FORMS STARTS HERE
@@ -332,7 +331,6 @@ webpackJsonp([0],[
 	};
 
 	var signOut = function signOut() {
-	  console.log("try number 2");
 	  return $.ajax({
 	    url: 'https://aqueous-atoll-85096.herokuapp.com' + '/sign-out/' + app.user.id,
 	    method: 'DELETE',
@@ -491,7 +489,8 @@ webpackJsonp([0],[
 	    method: 'PATCH',
 	    headers: {
 	      Authorization: 'Token token=' + app.user.token
-	    }
+	    },
+	    data: data
 	  });
 	};
 
@@ -555,8 +554,6 @@ webpackJsonp([0],[
 	var signOutSuccess = function signOutSuccess() {
 
 	  app.user = null;
-
-	  console.log('Signed Out!');
 	};
 
 	var newGameSuccess = function newGameSuccess(data) {
