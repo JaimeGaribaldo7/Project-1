@@ -174,7 +174,7 @@ const makeGet = () => {
     url: app.host + '/games/' + gameId,
     method: 'GET',
     headers: {
-      Authorization: 'Token token=' + app.user.token,
+      Authorization: 'Token token=' + user.token,
     }
   });
 };

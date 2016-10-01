@@ -55,6 +55,10 @@ let winner;
 let currentPlayer = 'X';
 let xScore = 0;
 let oScore = 0;
+let totalGames = (o, x) => {
+  let sum = o + x;
+ $('#totalg').html(sum);
+};
 
 const renderBoard = (board) => {
   let newBoard = $('.board-cell');
@@ -89,13 +93,16 @@ const onNewGame = function onNewGame(event) {
   .fail(ui.failure);
 };
 
-const updateScores = (player) => {
-  if (player === 'X') {
+
+// I want to add oScore + xScore and display it
+const updateScores = (winner) => {
+  if (winner === 'X') {
     xScore++;
   } else {
     oScore++;
   }
 };
+
 
 const checkWinner = function (player) {
   event.preventDefault();
@@ -113,8 +120,10 @@ const checkWinner = function (player) {
     $('#winner').html('Player ' + player + ' wins!');
     updateScores(player);
     // make api call to update isOver value to true
+    api.makeGet();
     api.updateGameOver().success(res => {
     });
+
     // then user cannot click on any other cells.
   } else if (playerTurn === 9) {
     $('#winner').html('No one wins!');
@@ -122,29 +131,31 @@ const checkWinner = function (player) {
 
   $('#player-x-score').html(xScore);
   $('#player-o-score').html(oScore);
+  totalGames(oScore, xScore);
 };
+
+
 
 const wasClicked = (event) => {
   event.preventDefault();
   let index = $(event.target).attr('data-index');
   let currentCell  = $(event.target)[0];
-  // I need to check if current cell is taken
+  // // I need to check if current cell is taken
   if (currentCell.innerText === '') {
     currentCell.innerText = currentPlayer;
     gameBoard[index] = currentPlayer;
     api.updateGameBoard(index, currentPlayer)
-    // NOTE ^THERE The gameBoard is updating
+  //   // NOTE ^THERE The gameBoard is updating
       .success((res) => {
       })
       .error(err => {
       });
-
+  //
     checkWinner(currentPlayer);
     playerTurn++;
     switchPlayers();
   } else {
   }
-
 };
 
 const onPatchScores = () => {
@@ -173,6 +184,7 @@ const addHandlers = () => {
   $('.new-game-button').hide();
   // $('.winner').on('updateScores', updateScores);
   $('.col-xs-5').on('click', onPatchScores);
+  // $('#totalg').html(updateScores);
 
 };
 
