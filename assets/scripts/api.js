@@ -1,7 +1,8 @@
 'use strict';
 
 const app = require('./app.js');
-const ui = require('./ui.js')
+
+const ui = require('./ui.js');
 
 //FORMS STARTS HERE NOTE FORMS STARTS HERE
 const signUp = (data) => {
@@ -169,12 +170,13 @@ const updateGameOver = () => {
   });
 };
 
+
 const makeGet = () => {
   return $.ajax({
     url: app.host + '/games/' + gameId,
     method: 'GET',
     headers: {
-      Authorization: 'Token token=' + app.user.token,
+      Authorization: 'Token token=' + user.token,
     }
   });
 };
@@ -200,12 +202,9 @@ const makeUpdate = () => {
     method: 'PATCH',
     headers: {
       Authorization: 'Token token=' + app.user.token,
-    },
-    data: data,
+    }
   });
 };
-
-
 
 module.exports = {
   signUp,
