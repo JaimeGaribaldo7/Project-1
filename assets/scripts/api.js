@@ -40,7 +40,6 @@ const changePassword = (data) => {
 };
 
 const signOut = () => {
-  console.log("try number 2")
   return $.ajax({
     url: 'https://aqueous-atoll-85096.herokuapp.com' + '/sign-out/' + app.user.id,
     method: 'DELETE',
