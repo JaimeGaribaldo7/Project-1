@@ -39,8 +39,8 @@ const changePassword = (data) => {
   });
 };
 
-const signOut = (user) => {
-  console.log(user);
+const signOut = () => {
+  console.log(app.host);
   return $.ajax({
     url: host + '/sign-out/' + app.user.id,
     method: 'DELETE',

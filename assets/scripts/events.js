@@ -38,7 +38,7 @@ const onChangePassword = function (event) {
   .fail(ui.failure);
 };
 
-const onSignOut = function () {
+const onSignOut = function (event) {
   event.preventDefault();
   $('.new-game-button').hide();
   $('.game-board').hide();
