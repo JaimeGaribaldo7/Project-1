@@ -40,9 +40,8 @@ const changePassword = (data) => {
 };
 
 const signOut = () => {
-  console.log(app.host);
   return $.ajax({
-    url: host + '/sign-out/' + app.user.id,
+    url: 'https://aqueous-atoll-85096.herokuapp.com' + '/sign-out/' + app.user.id,
     method: 'DELETE',
     headers: {
       Authorization: 'Token token=' + app.user.token,
