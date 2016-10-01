@@ -81,7 +81,7 @@ webpackJsonp([0],[
 	  api.changePassword(data).done(ui.changePasswordSuccess).fail(ui.failure);
 	};
 
-	var onSignOut = function onSignOut() {
+	var onSignOut = function onSignOut(event) {
 	  event.preventDefault();
 	  $('.new-game-button').hide();
 	  $('.game-board').hide();
@@ -331,10 +331,10 @@ webpackJsonp([0],[
 	  });
 	};
 
-	var signOut = function signOut(user) {
-	  console.log(user);
+	var signOut = function signOut() {
+	  console.log("try number 2");
 	  return $.ajax({
-	    url: host + '/sign-out/' + app.user.id,
+	    url: 'https://aqueous-atoll-85096.herokuapp.com' + '/sign-out/' + app.user.id,
 	    method: 'DELETE',
 	    headers: {
 	      Authorization: 'Token token=' + app.user.token
@@ -556,7 +556,7 @@ webpackJsonp([0],[
 
 	  app.user = null;
 
-	  // console.log('Signed Out!');
+	  console.log('Signed Out!');
 	};
 
 	var newGameSuccess = function newGameSuccess(data) {
