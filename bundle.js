@@ -100,6 +100,10 @@ webpackJsonp([0],[
 	var currentPlayer = 'X';
 	var xScore = 0;
 	var oScore = 0;
+	var totalGames = function totalGames(o, x) {
+	  var sum = o + x;
+	  $('#totalg').html(sum);
+	};
 
 	var renderBoard = function renderBoard(board) {
 	  var newBoard = $('.board-cell');
@@ -133,8 +137,9 @@ webpackJsonp([0],[
 	  }).fail(ui.failure);
 	};
 
-	var updateScores = function updateScores(player) {
-	  if (player === 'X') {
+	// I want to add oScore + xScore and display it
+	var updateScores = function updateScores(winner) {
+	  if (winner === 'X') {
 	    xScore++;
 	  } else {
 	    oScore++;
@@ -157,6 +162,7 @@ webpackJsonp([0],[
 	    $('#winner').html('Player ' + player + ' wins!');
 	    updateScores(player);
 	    // make api call to update isOver value to true
+	    api.makeGet();
 	    api.updateGameOver().success(function (res) {});
 	    // then user cannot click on any other cells.
 	  } else if (playerTurn === 9) {
@@ -165,20 +171,17 @@ webpackJsonp([0],[
 
 	  $('#player-x-score').html(xScore);
 	  $('#player-o-score').html(oScore);
+	  totalGames(oScore, xScore);
 	};
 
 	var wasClicked = function wasClicked(event) {
 	  event.preventDefault();
 	  var index = $(event.target).attr('data-index');
 	  var currentCell = $(event.target)[0];
-	  // I need to check if current cell is taken
 	  if (currentCell.innerText === '') {
 	    currentCell.innerText = currentPlayer;
 	    gameBoard[index] = currentPlayer;
-	    api.updateGameBoard(index, currentPlayer)
-	    // NOTE ^THERE The gameBoard is updating
-	    .success(function (res) {}).error(function (err) {});
-
+	    api.updateGameBoard(index, currentPlayer).success(function (res) {}).error(function (err) {});
 	    checkWinner(currentPlayer);
 	    playerTurn++;
 	    switchPlayers();
@@ -290,6 +293,7 @@ webpackJsonp([0],[
 	/* WEBPACK VAR INJECTION */(function($) {'use strict';
 
 	var app = __webpack_require__(6);
+
 	var ui = __webpack_require__(7);
 
 	//FORMS STARTS HERE NOTE FORMS STARTS HERE
@@ -461,7 +465,7 @@ webpackJsonp([0],[
 	    url: app.host + '/games/' + gameId,
 	    method: 'GET',
 	    headers: {
-	      Authorization: 'Token token=' + app.user.token
+	      Authorization: 'Token token=' + user.token
 	    }
 	  });
 	};
@@ -487,8 +491,7 @@ webpackJsonp([0],[
 	    method: 'PATCH',
 	    headers: {
 	      Authorization: 'Token token=' + app.user.token
-	    },
-	    data: data
+	    }
 	  });
 	};
 
