@@ -520,7 +520,7 @@ webpackJsonp([0],[
 	var app = {
 	  // host: 'http://tic-tac-toe.wdibos.com',
 
-	  host: 'https://aqueous-atoll-85096.herokuapp.com'
+	  host: 'https://shrouded-river-18372.herokuapp.com/'
 	};
 
 	module.exports = app;
